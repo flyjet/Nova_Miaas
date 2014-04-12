@@ -26,8 +26,8 @@
     
     //creating Amazon SQS    
     $sqs = SQSClient::factory(array(
-        'key'    => 'AKIAIQIASVL7D7V45JMQ',
-        'secret' => 'AQE4TSzFfoF51meg8Li1wQeblMZ6KorQIMexzMci',
+        'key'    => 'Your Key',
+        'secret' => 'Your Secret',
         'region' => 'us-east-1',
     ));
     
