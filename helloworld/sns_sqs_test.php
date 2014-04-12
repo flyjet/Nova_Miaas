@@ -46,35 +46,6 @@
     
     //set Queue attribute
     
-//    $response_att = $sqs->setQueueAttributes(array(
-//                                              
-//        'QueueUrl' => $queue_url,
-//        'Attributes' => array(
-//                              
-//        'Policy' => {"Version":"2012-10-17"},
-             //'QueueAttributeName' => 'string',
-//            'Policy' => array (
-//                'Version' => '2012-10-17',
-//                'Statement' => array(
-//                    array(
-//                            'Sid' => 'MySQSPolicy001',
-//                            'Resource'=> $queue_arn,
-//                            'Effect'=> 'Allow',
-//                            'Action'=> 'sqs:SendMessage',
-//                            'Condition' => array(
-//                                    'ArnEquals' => array(
-//                                            'aws:SourceArn' => $topic_arn,
-//                                    )
-//                            ),
-//                            'Principal' => array(
-//                                    'AWS'=> '*',
-//                            )
-//                    )
-//                )
-//            )
-                              
-//        ),
-//    ));
    
     //subscribing the topic to sqs .Now a new message to SNS, will push the message into the SQS
 
