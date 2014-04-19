@@ -8,8 +8,8 @@
 
     //creating Amazon SNS
     $sns = SNSClient::factory(array(
-        'key'    => 'Your Key',
-        'secret' => 'Your Secret',
+        'key'    => '',
+        'secret' => '',
         'region' => 'us-east-1',
     ));    
                
@@ -25,8 +25,8 @@
     
     
     //creating Amazon SQS    
-        'key'    => 'Your Key',
-        'secret' => 'Your Secret',
+        'key'    => '',
+        'secret' => '',
         'region' => 'us-east-1',
     ));
     
