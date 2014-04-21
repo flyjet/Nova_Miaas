@@ -4,6 +4,7 @@
 		        <div class="col-lg-8">
 				   	<ul class="nav navbar-nav navbar-right">
 				        <li><a href="index.php" >Back</a></li>
+				        <li><a href="readmore.php" >About </a></li>
 				    </ul>  
 			    </div> 
 			</header> <!-- end of class row 1-->
