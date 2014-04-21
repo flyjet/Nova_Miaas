@@ -1,32 +1,14 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
+<?php include("../includes/layouts/header.php"); ?>
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
-	    <title>Nova MIaaS - Mobile Cloud Infrastruture Services</title>
-	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	    <!-- Bootstrap -->
-	    <link href="stylesheets/css/bootstrap.min.css" rel="stylesheet">
-	    <link href="stylesheets/css/custom.css" rel="stylesheet">
-	    <script src="stylesheets/js/respond.js"></script>
-	</head>
-	
-	<body>
-		<div class="container">   <!-- will be end in footer.php -->
-			<!-- row 1 -->
-			<header class="row">
-		    	<div class="col-lg-3 col-md-3">
-		        	<a href="index.php"><img src="image/logosmall.png" alt="click for home." class="img-responsive"></a>
-		        </div>			    	
-		        <div>
+			<!-- row 1 start in header -->
+
+		        <div class="col-lg-8">
 				   	<ul class="nav navbar-nav navbar-right">
-				        <li><a href="#" >Sign Up </a></li>
-				       	<li><a href="#" >Sign In </a></li>
-				       	<li><a href="#" >Admin </a></li>
+				        <li><a href="register.php" >Sign Up </a></li>
+				       	<li><a href="login.php" >Sign In </a></li>
 				    </ul>  
-			    </div>
-			</header>
+			    </div> 
+			</header> <!-- end of class row 1-->
 
 			<!-- row 2 -->
 		    <div class="jumbotron">
@@ -40,14 +22,15 @@
 		        <span class="glyphicon glyphicon-arrow-right"></span> Launch as many virtual servers as you need </br>
 		        </p>
 
-		        <p><a href="#" class="btn btn-warning">Read more >></a></p>
+		        <p><a href="readmore.php" class="btn btn-warning">Read more >></a></p>
 		    </div>
 
 		    <!-- row 3 -->
 		    <div class="col-lg-offset-4" >
-				<a class="btn btn-warning" href="#"> Get Started for Free</a> 
+				<a class="btn btn-warning" href="register.php"> Get Started for Free</a> 
 				<span>Launch virtual mobiles in minutes.</span>
 			</div>
 
+			<!-- row 4 in footer -->
 
 <?php include("../includes/layouts/footer.php"); ?>

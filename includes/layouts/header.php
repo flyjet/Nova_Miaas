@@ -2,17 +2,19 @@
    "http://www.w3.org/TR/html4/loose.dtd">
 
 <html lang="en">
-<head>
-		<title>Nova MIaaS </title>
-		<link href="stylesheets/main.css"  rel="stylesheet" type="text/css" />
-		<link href="stylesheets/screen.css"  rel="stylesheet" type="text/css" />
-		<!-- <link href="../css/print.css"  rel="stylesheet" type="text/css" /> -->
-		<link href="stylesheets/form.css"  rel="stylesheet" type="text/css" />
-</head>
+	<head>
+		<meta charset="utf-8">
+	    <title>Nova MIaaS - Mobile Cloud Infrastruture Services</title>
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <!-- Bootstrap -->
+	    <link href="stylesheets/css/bootstrap.min.css" rel="stylesheet">
+	    <link href="stylesheets/css/custom.css" rel="stylesheet">
+	</head>
 	
-<body>
-<div class="container" id="page">
-	
-    <div id="header">
-      <h1>Nova MIaaS </h1>
-   </div>
+	<body>
+		<div class="container">   <!-- will be end in footer.php -->
+			<!-- row 1 -->
+			<header class="row">   <!-- will be end in each pages php-->
+		    	<div class="col-lg-3 col-md-3">
+		        	<a href="index.php"><img src="image/logosmall.png" alt="click for home." class="img-responsive"></a>
+		        </div>		
