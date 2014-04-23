@@ -16,20 +16,18 @@
 
 		        	<h4> About Nova MIaaS</h4>
 			            <ul class="nav nav-pills nav-stacked">
-			                <li class="active"><a href="readmore.php">Overview</a></li>
-			                <li><a href="readmore_b.php">Benefits </a></li>
-			                <li><a href="readmore_i.php">Instances </a></li>
-			                <li><a href="readmore_p.php">Pricing </a></li>
+			                <li class="active" style="font-weight: bold;"><a href="readmore.php">Overview</a></li>
+			                <li style="font-weight: bold;"><a href="readmore_b.php">Benefits </a></li>
+			                <li style="font-weight: bold;"><a href="readmore_i.php">Instances </a></li>
+			                <li style="font-weight: bold;"><a href="readmore_p.php">Pricing </a></li>
 			            </ul> 
 	         	</aside>
 
-	         	<article class="col-lg-offset-1 col-lg-8 ">
+	         	<article class="col-lg-8" style="margin-left:2em;">
 	         		<h1orange>Nova MIaaS</h1orange>
 	         		<p style="font-size:16px;"> Nova MIaaS, Nova Mobile Cloud Infrastructure-as-a-Service, provides mobiles resources to users on demand in cloud infrastructure level. It is designed to make mobile-scale easier for developers.
 
-
-
-	         	</article>
+				</article>
 	    	</div><!-- end of class row 2-->
 
 

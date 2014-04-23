@@ -16,11 +16,14 @@
 
 		        	<h5> Nova MIaaS Dashboard</h5>
 			            <ul class="side-navbar nav nav-pills nav-stacked">
-			            	<li><a href="user_dashboard">Instances </a></li>
-			            	<li><a href="user_request.php">>>Lauch Instances</a></li> 
-			            	<li><a href="user_reserved.php">>>Reserved Devices</a></li>
-			            	<li><a href="user_bill.php">Billing Management</a></li>
-			                <li class="active"><a href="user_profile.php">Account Profile</a></li>
+			            	<li style="font-weight: bold;"><a href="user_dashboard">Instances </a></li>
+			            	<li style="font-size:13px; margin-left:10px;"><a href="user_request.php">>>Lauch Instances</a></li> 
+			            	<li style="font-size:13px; margin-left:10px;"><a href="user_reserved.php">>>Reserved Devices</a></li>
+			            	<li style="font-weight: bold;"><a href="user_bill.php">Billing & Costs</a></li>
+			            	<li style="font-size:13px; margin-left:10px;"><a href="user_bill_bh.php">>>Bill History</a></li>
+			            	<li style="font-size:13px; margin-left:10px;"><a href="user_bill_ph.php">>>Payment History</a></li>
+			            	<li style="font-size:13px; margin-left:10px;"><a href="user_bill_ur.php">>>Usage Report</a></li>
+			                <li class="active" style="font-weight: bold;"><a href="user_profile.php">Account Profile</a></li>
 			            </ul> 
 	         	</aside>
 
