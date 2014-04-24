@@ -11,21 +11,9 @@
 
 			<!-- row 2 -->
 			<div class="row">
-				<aside class="col-lg-2" style="border-right: 1px solid #E4E4E4;">  <!-- side navbar -->
-
-		        	<h5> Nova MIaaS Dashboard</h5>
-			            <ul class="side-navbar nav nav-pills nav-stacked">
-			            	<li style="font-weight: bold;"><a href="user_dashboard">Instances </a></li>
-			            	<li style="font-size:13px; margin-left:10px;"><a href="user_request.php">>>Lauch Instances</a></li> 
-			            	<li style="font-size:13px; margin-left:10px;"><a href="user_reserved.php">>>Reserved Devices</a></li>
-			            	<li style="font-weight: bold;"><a href="user_bill.php">Billing & Costs</a></li>
-			            	<li  class="active" style="font-size:13px; margin-left:10px;"><a href="user_bill_bh.php">>>Bill History</a></li>
-			            	<li style="font-size:13px; margin-left:10px;"><a href="user_bill_ph.php">>>Payment History</a></li>
-			            	<li style="font-size:13px; margin-left:10px;"><a href="user_bill_ur.php">>>Usage Report</a></li>
-			                <li style="font-weight: bold;"><a href="user_profile.php">Account Profile</a></li>
-			            </ul> 
-	         	</aside>
-
+				<?php $activeMenu = "user_bill_bh" ?>
+				<?php include("aside_bar.php"); ?>
+				
 	         	<article class="col-lg-10">
 
 	         		<div class="row" style="border-bottom: 1px solid #E4E4E4; margin-left:1em;">
