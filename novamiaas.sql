@@ -24,6 +24,7 @@ insert into users (first_name,last_name,email,password, admin_authority) values
 ('kai', 'yao','kai@gmail.com','1234', 0),
 ('admin', 'admin','admin@gmail.com','1234', 1);
 
+
 DROP TABLE IF EXISTS hosts;
 CREATE TABLE hosts ( 
 id int NOT NULL AUTO_INCREMENT,
@@ -82,3 +83,64 @@ insert into user_mobile (user_id,mobile_id, start_time, end_time) values
 (1,3,'2014-04-19 00:00:01', '2014-04-19 15:00:01'),
 (2,5,'2014-04-19 00:00:01', '2014-04-19 10:00:01');
 
+
+DROP TABLE IF EXISTS paymentinfo;
+CREATE TABLE paymentinfo (
+	id int NOT NULL AUTO_INCREMENT,
+	user_id int NOT NULL,
+	card_number varchar(50) NOT NULL,
+	name_on_card varchar(50) NOT NULL,
+	expire varchar(20) NOT NULL,
+	street varchar(50),
+	city varchar(20),
+	state varchar(20),
+	postcode varchar(20),
+	country varchar(20),
+	phone varchar(20),
+	FOREIGN KEY (user_id) REFERENCES users(id)
+	ON DELETE CASCADE ON UPDATE CASCADE,
+	PRIMARY KEY (id)
+	);
+
+insert into paymentinfo (user_id, card_number,name_on_card,expire,street,city,state,postcode,country,phone)	values
+	(1,'123456789012','ling zhang','12/2018','100 1st Street','San Jose','CA','12345','USA','408-123-4567');
+
+
+DROP TABLE IF EXISTS bills;
+CREATE TABLE bills (
+	id int NOT NULL AUTO_INCREMENT,
+	user_id int NOT NULL,
+	bill_start timestamp NOT NULL,
+	bill_end timestamp NOT NULL,
+	bill_due timestamp,
+	amount decimal(10,2) NOT NULL,
+	paid_flag bit default 0,  -- 0, not paid; 1, alread paid
+	FOREIGN KEY (user_id) REFERENCES users(id)
+	ON DELETE CASCADE ON UPDATE CASCADE,
+	PRIMARY KEY (id)
+	);
+
+insert into bills (user_id,bill_start,bill_end,bill_due,amount,paid_flag)	values
+	(1,'2014-01-01 00:00:01','2014-02-01 00:00:00','2014-03-01 00:00:00', 20.00, 1),
+	(1,'2014-02-01 00:00:01','2014-03-01 00:00:00','2014-04-01 00:00:00', 10.27, 1),
+	(1,'2014-03-01 00:00:01','2014-04-01 00:00:00','2014-05-01 00:00:00', 25.00, 0);
+
+DROP TABLE IF EXISTS pay_history;
+CREATE TABLE pay_history (	
+	id int NOT NULL AUTO_INCREMENT,
+	user_id int NOT NULL,
+	bill_id int NOT NULL,
+	payinfo_id int NOT NULL,
+	paid_time timestamp NOT NULL,
+	FOREIGN KEY (user_id) REFERENCES users(id)
+	ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (bill_id) REFERENCES bills(id)
+	ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (payinfo_id) REFERENCES paymentinfo(id)
+	ON DELETE CASCADE ON UPDATE CASCADE,
+	PRIMARY KEY (id)
+	);	
+
+insert into pay_history(user_id,bill_id,payinfo_id,paid_time)values
+	(1,1,1,'2014-02-15 00:00:00'),
+	(1,2,1,'2014-03-15 00:00:00');

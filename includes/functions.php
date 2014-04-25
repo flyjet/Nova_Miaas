@@ -13,7 +13,7 @@ class BasicHelper{
 		}
 	}
 
-	public static function mysql_prep($string) {
+	public static function escape_value($string) {
 		global $connection;		
 		$escaped_string = mysqli_real_escape_string($connection, $string);
 		return $escaped_string;
@@ -27,6 +27,14 @@ class UserManager{
 			if (!Session::logged_in()) {
 				BasicHelper::redirect_to("login.php");
 			}
+	}
+	
+	public static function password_check($password, $existing_password) {
+		if ($password === $existing_password) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public static function attempt_login($user_email, $password) {
@@ -49,7 +57,7 @@ class UserManager{
 	public static function find_user_by_email($user_email) {
 		global $connection;
 		
-		$safe_user_email = mysqli_real_escape_string($connection, $user_email);
+		$safe_user_email = BasicHelper::escape_value($user_email);
 		
 		$query  = "SELECT * ";
 		$query .= "FROM users ";
@@ -63,16 +71,59 @@ class UserManager{
 			return null;
 		}
 	}
-	
-	public static function password_check($password, $existing_password) {
-		if ($password === $existing_password) {
-			return true;
-		} else {
-			return false;
-		}
-	}
 
+
+	public static function find_paymentinfo_by_userid( $user_id=0 ) {
+		global $connection;
+		
+		$query  = "SELECT * ";
+		$query .= "FROM paymentinfo ";
+		$query .= "WHERE user_id = {$user_id} ";
+		$query .= "LIMIT 1";
+		$info_set = mysqli_query($connection, $query);
+		BasicHelper::confirm_query($info_set);
+		if($paymentinfo = mysqli_fetch_assoc($info_set)) {
+			return $paymentinfo;
+		} else {
+			return null;
+		}
+		
+	}
 	
+	public static function update_user($userid=0, $firstname="", $lastname="", $email="",$password=""){
+		global $connection;
+		$query  = "UPDATE users SET ";
+	    $query .= "first_name = '{$firstname}', ";
+		$query .= "last_name = '{$lastname}', ";
+	    $query .= "email = '{$email}', ";
+	    $query .= "password = '{$password}' ";
+	    $query .= "WHERE id = {$userid} ";
+	    $query .= "LIMIT 1";
+		$result = mysqli_query($connection, $query);
+		return $result;
+		
+	}
+	
+	public static function update_paymentinfo(
+		$userid, $cardnumber, $name, $expire,$street, $city, $state, $postal, $country,$phone){
+		global $connection;
+		$query  = "UPDATE paymentinfo SET ";
+		$query .= "card_number = '{$cardnumber}', ";
+	    $query .= "name_on_card = '{$name}', ";
+		$query .= "expire = '{$expire}', ";
+	    $query .= "street= '{$street}', ";
+	    $query .= "city = '{$city}', ";
+		$query .= "state = '{$state}', ";
+		$query .= "postcode = '{$postal}', ";
+		$query .= "country = '{$country}', ";
+		$query .= "phone = '{$phone}' ";
+	    $query .= "WHERE user_id = {$userid} ";
+	    $query .= "LIMIT 1";
+		$result = mysqli_query($connection, $query);
+		return $result;	
+			
+		}
+		
 			
 }
 
