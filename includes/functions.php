@@ -127,6 +127,87 @@ class UserManager{
 			
 }
 
+class BillManager{
+	
+	public static function find_bills_by_userid($user_id,$number_limit=100){
+		global $connection;		
+		$query  = "SELECT * ";
+		$query .= "FROM bills ";
+		$query .= "WHERE user_id = {$user_id} ";
+		$query .= "ORDER BY bill_end DESC ";
+		$query .= "LIMIT {$number_limit} ";
+		$result_set = mysqli_query($connection, $query);
+		BasicHelper::confirm_query($result_set);
+	    while ($row = mysqli_fetch_array($result_set)) {
+	        $result_array[] = $row;
+	    }
+	    return $result_array;
+				
+	}
+	
+	public static function buildBillsArray($data_array){   
+        //build array for google chart data
+	    $output = "['Time', 'Bill Amount'], ";
+		$i=0;
+	    // The data needs to be in a format ['string', decimal]
+	   while (!empty($data_array[$i]) ){
+	        $output .= "['" . $data_array[$i]['bill_end'] . "', ";
+	        $output .= $data_array[$i]['amount'] . ", ";  
+	        // On the final count do not add a comma
+	        if (!empty($data_array[$i+1]) ){
+	            $output .= "],\n";
+	        } else {
+	            $output .= "]\n";
+	        }
+			$i++;
+	    };
+
+	    return $output;
+	}
+	
+	public static function find_payments_by_userid($user_id=0,$number_limit=100){
+		global $connection;		
+		$query  = "SELECT h.user_id, h.paid_time, b.amount, p.card_number ";
+		$query .= "FROM pay_history h, bills b, paymentinfo p ";
+		$query .= "WHERE h.user_id = {$user_id} AND h.bill_id=b.id AND h.payinfo_id=p.id ";
+		$query .= "ORDER BY h.paid_time DESC ";
+		$query .= "LIMIT {$number_limit} ";
+		$result_set = mysqli_query($connection, $query);
+		BasicHelper::confirm_query($result_set);
+	    while ($row = mysqli_fetch_array($result_set)) {
+	        $result_array[] = $row;
+	    }
+	    return $result_array;
+				
+	}
+
+	
+	public static function buildPaymentsArray($data_array){   
+        //build array for google chart data
+	    $output = "['Paid Time', 'Bill Amount', 'Payment Card'], ";
+		$i=0;
+	    // The data needs to be in a format ['string', decimal, 'string']
+	   while (!empty($data_array[$i]) ){
+	        $output .= "['" . $data_array[$i]['paid_time'] . "', ";
+	        $output .= $data_array[$i]['amount'] . ", "; 
+			$output .= $data_array[$i]['card_number'] . ", ";   
+	        // On the final count do not add a comma
+	        if (!empty($data_array[$i+1]) ){
+	            $output .= "],\n";
+	        } else {
+	            $output .= "]\n";
+	        }
+			$i++;
+	    };
+
+	    return $output;
+	}
+	
+	
+	
+	
+}
+
 
 
 

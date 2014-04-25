@@ -1,3 +1,11 @@
+<?php include("../includes/initialize.php"); ?>
+<?php UserManager::confirm_logged_in();?>
+<?php
+  $user = UserManager::find_user_by_email($_SESSION["email"]);
+  $userpayments = BillManager::find_payments_by_userid($_SESSION["user_id"]);
+  $userPaymentGraphData = BillManager::buildPaymentsArray($userpayments);
+
+?>
 <?php include("../includes/layouts/header.php"); ?>
 
 			<!-- row 1 start in header -->
@@ -20,8 +28,33 @@
 	         			<h2orange>Payment History</h2orange>
 	         		</div>
 	         		<p style="font-size:16px; margin-left:1em;"> Your payment history </p>
+					<div id="PaymentHistoryTable"></div>
 	         		<br>
 	         	</article>
+				
+			    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+			    <script type="text/javascript">
+			        google.load("visualization", "1", {packages:["table"]});
+			        google.setOnLoadCallback(drawTable);
+			        function drawTable() {
+			            var paymenthistorydata = google.visualization.arrayToDataTable([
+			                <?php echo $userPaymentGraphData ?>
+			            ]);
+			
+			            var options = {
+			                fontSize: 11,
+							width: 600, height: 240,
+							page: 'enable',
+							pageSize : 5,
+							pagingSymbols : {prev: 'prev', next: 'next'},
+							pagingButtonsConfiguration :'auto'
+							
+			            };
+			
+			            var paymentHistoryTable = new google.visualization.Table(document.getElementById('PaymentHistoryTable'));
+			            paymentHistoryTable.draw(paymenthistorydata, options);
+					}
+				</script>
 	    	</div><!-- end of class row 2-->
 
 
