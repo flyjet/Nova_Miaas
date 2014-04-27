@@ -122,8 +122,9 @@ class UserManager{
 		$result = mysqli_query($connection, $query);
 		return $result;	
 			
-		}
-		
+	}
+	
+
 			
 }
 
@@ -161,7 +162,7 @@ class BillManager{
 	    // The data needs to be in a format ['string', decimal]
 	   while (!empty($data_array[$i]) ){
 	        $output .= "['" . $data_array[$i]['bill_end'] . "', ";
-	        $output .= $data_array[$i]['amount'] . ", ";  
+	        $output .= $data_array[$i]['amount'] . " ";  
 	        // On the final count do not add a comma
 	        if (!empty($data_array[$i+1]) ){
 	            $output .= "],\n";
@@ -199,7 +200,7 @@ class BillManager{
 	   while (!empty($data_array[$i]) ){
 	        $output .= "['" . $data_array[$i]['paid_time'] . "', ";
 	        $output .= $data_array[$i]['amount'] . ", "; 
-			$output .= $data_array[$i]['card_number'] . ", ";   
+			$output .= $data_array[$i]['card_number'] . " ";   
 	        // On the final count do not add a comma
 	        if (!empty($data_array[$i+1]) ){
 	            $output .= "],\n";
@@ -212,8 +213,12 @@ class BillManager{
 	    return $output;
 	}
 	
-	public static function find_records_by_userid ($user_id, $mobile_type="", $bill_start="", $bill_end="",$mobile_id=""){
+	public static function find_usage_records_by_userid ($user_id, $mobile_type="", $bill_start="", $bill_end="",$mobile_id=""){
+		//could find usage records of specific user, with specific type (emulator or device or all)
+		//with specific start time , end time (optional), with specific mobile_id (optional);
 		//$user_id,$mobile_type,$bill_start are necessary
+		// issues of this funtion:
+		//could not consider the records duration over the start time point, or end time point!!!
 		global $connection;		
 		$query  = "SELECT um.id, um.user_id, um.mobile_id, um.start_time, um.end_time ";
 		$query .= ", m.emulator_flag ";
@@ -246,6 +251,7 @@ class BillManager{
 		//precondition: $user_mobile_records is the result array contains records of rows of Table user_mobile
 		global $connection;	
 		$total_hour_mobile=0;
+		if ($user_mobile_records!=null){
 		foreach( $user_mobile_records as $user_mobile_row){
 			//echo " start time is ".$user_mobile_row["start_time"];
 			//echo " end time is ".$user_mobile_row["end_time"];
@@ -255,7 +261,8 @@ class BillManager{
 			//echo " usage is ".$hour_mobile;
 			$total_hour_mobile += $hour_mobile;			
 		}
-		return $total_hour_mobile;		
+		return $total_hour_mobile;	
+		}	
 		
 	}
 	
@@ -292,9 +299,93 @@ class BillManager{
 		
 	}
 	
+    public static function findAndBuildBillArray($user_id=0,$start="",$end=""){
+		//could find specifica user's all bill for emulator and device respectively during a specific time
+		//Post Condition: return an Array for google chart
+		// issues of this funtion:
+		//could not consider the records duration over the start time point, or end time point!!!
+	    $deviceRecords = BillManager::find_usage_records_by_userid($user_id,"DEVICE", $start, $end);
+	    $deviceHourMobile = BillManager::calculate_total_hour_mobile($deviceRecords);
+	    $deviceBill =BillManager::calculate_bill_by_type($deviceHourMobile,"DEVICE");
+   
+
+	    $emulatorRecords = BillManager::find_usage_records_by_userid($user_id,"EMULATOR", $start,$end);
+	    $emulatorHourMobile = BillManager::calculate_total_hour_mobile($emulatorRecords);   
+	    $emulatorBill =BillManager::calculate_bill_by_type($emulatorHourMobile,"EMULATOR");
+   
+	    $userBillTableData = "['Type', 'Used Time(hr*mobile)','Bill Amount($)'], ";
+	    $userBillTableData.=  "['Emulator', " . $emulatorHourMobile . ", ";
+	    $userBillTableData.=  $emulatorBill."],\n";
+	    $userBillTableData.=  "['Device', " . $deviceHourMobile . ", ";
+	    $userBillTableData.=  $deviceBill."],\n";  
+   
+	    return $userBillTableData;
+    }
 	
 	
+	public static function find_mobiles_by_userid($user_id=0,$start="",$end=""){
+		
+		
+		// issues of this funtion:
+		//could not consider the records duration over the start time point, or end time point!!!
+		global $connection;		
+		$query  = "SELECT id, emulator_flag, brand, api ";
+		$query .= "FROM mobiles ";
+		$query .= "WHERE id IN ";
+		$query .= "(SELECT DISTINCT mobile_id FROM user_mobile ";
+		$query .= "WHERE user_id = {$user_id} ";
+		if($start!=""){
+		$query .= "AND start_time > '{$start})' ";
+		}
+		if($end!=""){
+		$query .= "AND end_time < '{$end})' ";
+		}
+		$query .= ")";
+		$result_set = mysqli_query($connection, $query);
+		BasicHelper::confirm_query($result_set);
+	    while ($row = mysqli_fetch_array($result_set)) {
+	        $result_array[] = $row;
+	    }
+	    return $result_array;
+		
+	}
 	
+	public static function buildMobileUsageReportArray($user_id,$start,$end,$used_mobiles_array){
+	//$used_mobiles_array is the result from find_mobiles_by_userid()
+	$MobileHourArray= array();	
+	if($used_mobiles_array!=null){
+		foreach($used_mobiles_array as $used_mobile){
+			$used_mobile_id=$used_mobile["id"];
+			$usageRecords = BillManager::find_usage_records_by_userid($user_id,"ALL", $start,$end,$used_mobile_id);
+			$HourMobile = BillManager::calculate_total_hour_mobile($usageRecords);	
+			$MobileHourArray[$used_mobile_id]=$HourMobile;		
+		}
+	}
+	
+	$output = "['Type', 'ID', 'Brand', 'API Level', 'Used Time(hr*mobile)'], ";
+	$i=0;
+    while (!empty($used_mobiles_array[$i]) ){
+		if($used_mobiles_array[$i]['emulator_flag']==0){
+	        $output .= "['Emulator', ";
+		}
+		else $output .= "['Device', ";
+        $output .= $used_mobiles_array[$i]['id'] . " , "; 
+		$output .= " ' ".$used_mobiles_array[$i]['brand'] . "', ";
+		$output .= " ' ".$used_mobiles_array[$i]['api'] . "', "; 
+		$mobile_id=$used_mobiles_array[$i]['id'];
+		$output .= $MobileHourArray[$mobile_id] . " ";      
+        // On the final count do not add a comma
+        if (!empty($used_mobiles_array[$i+1]) ){
+            $output .= "],\n";
+        } else {
+            $output .= "]\n";
+        }
+		$i++;
+    };
+	return $output;
+	
+   }   
+   
 	
 	
 	

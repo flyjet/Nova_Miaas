@@ -83,6 +83,13 @@ insert into user_mobile (user_id,mobile_id, start_time, end_time) values
 (1,3,'2014-04-19 00:00:01', '2014-04-19 15:00:01'),
 (2,5,'2014-04-19 00:00:01', '2014-04-19 10:00:01');
 
+insert into user_mobile (user_id,mobile_id, start_time, end_time) values 
+(1,1,'2014-03-19 00:00:01', '2014-03-19 10:00:01'),
+(1,1,'2014-03-20 10:00:01', '2014-03-20 22:00:01'),
+(1,2,'2014-03-19  00:05:01', '2014-03-20 20:30:01'),
+(1,3,'2014-03-19 00:01:01', '2014-03-19 17:40:01'),
+(2,5,'2014-03-19 00:00:01', '2014-03-19 10:00:01');
+
 
 DROP TABLE IF EXISTS paymentinfo;
 CREATE TABLE paymentinfo (
@@ -172,4 +179,13 @@ insert into pay_history(user_id,bill_id,payinfo_id,paid_time)values
 -- select um.id, um.user_id, um.mobile_id, um.start_time, um.end_time, m.emulator_flag from user_mobile um, mobiles m
 -- where um.mobile_id=m.id and um.user_id = 1 and um.start_time > '2014-04-19 00:00:00' and um.end_time < '2014-04-20 00:00:01'
 -- and m.emulator_flag=0;
+-- test sucess
+
+-- select um.id, um.user_id, um.mobile_id, m.emulator_flag, m.brand, m.api from user_mobile um, mobiles m
+-- where um.mobile_id=m.id and um.user_id = 1 um.mobile_id ;
+-- test sucess
+
+
+-- select id, emulator_flag, brand, api from mobiles
+-- where id in (select distinct mobile_id from user_mobile where user_id=1);
 -- test sucess

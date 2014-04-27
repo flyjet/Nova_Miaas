@@ -1,25 +1,11 @@
 <?php include("../includes/initialize.php"); ?>
 <?php UserManager::confirm_logged_in();?>
-<?php date_default_timezone_set('America/Los_Angeles'); ?>
 <?php
-// $currentMonth=date("M");
-// $currentYear=date("Y");
-$currentBillStart = gmdate("Y-m-d H:i:s", gmmktime(0,0,0,gmdate("m"),1,gmdate("Y")) ); 
-//echo $currentBillStart;
-$deviceCurrentMonthRecords = BillManager::find_records_by_userid($_SESSION["user_id"],"DEVICE", $currentBillStart);
-$deviceCurrentMonthHourMobile = BillManager::calculate_total_hour_mobile($deviceCurrentMonthRecords);
-//echo " the device used hour-mobile is ".$deviceCurrentMonthHourMobile;
-$deviceCurrentMonthBill =BillManager::calculate_bill_by_type($deviceCurrentMonthHourMobile,"DEVICE");
-//echo " the totall bill amount for device is ".$deviceCurrentMonthBill;
 
-$emulatorCurrentMonthRecords = BillManager::find_records_by_userid($_SESSION["user_id"],"EMULATOR", $currentBillStart);
-$emulatorCurrentMonthHourMobile = BillManager::calculate_total_hour_mobile($emulatorCurrentMonthRecords);
-//echo " the emulator used hour-mobile is ".$emulatorCurrentMonthHourMobile;	
-$emulatorCurrentMonthBill =BillManager::calculate_bill_by_type($emulatorCurrentMonthHourMobile,"EMULATOR");
-//echo " the totall bill amount for emulator is ".$emulatorCurrentMonthBill;
-	
-	
-	
+$currentBillStart = date("Y-m-d H:i:s", mktime(0,0,0,date("m"),1,date("Y")) ); 
+
+$userCurrentMonthBillTableData=BillManager::findAndBuildBillArray($_SESSION["user_id"],$currentBillStart);
+ 		
 ?>
 <?php include("../includes/layouts/header.php"); ?>
 
@@ -54,13 +40,6 @@ $emulatorCurrentMonthBill =BillManager::calculate_bill_by_type($emulatorCurrentM
 				    </div> 			         								
 	         	</article>
 				
-				<?php 
-				$userCurrentMonthBillTableData = "['Type', 'Used Time(hr*mobile)','Bill Amount($)'], ";
-				$userCurrentMonthBillTableData.=  "['Emulator', " . $emulatorCurrentMonthHourMobile . ", ";
-				$userCurrentMonthBillTableData.=  $emulatorCurrentMonthBill."],\n";
-				$userCurrentMonthBillTableData.=  "['Device', " . $deviceCurrentMonthHourMobile . ", ";
-				$userCurrentMonthBillTableData.=  $deviceCurrentMonthBill."]\n";
-				?> 
 			    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 				<script type="text/javascript">
 			        google.load("visualization", "1", {packages:["table"]});
