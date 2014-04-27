@@ -163,4 +163,13 @@ insert into pay_history(user_id,bill_id,payinfo_id,paid_time)values
 -- SELECT h.user_id, h.paid_time, b.amount, p.card_number
 -- FROM pay_history h, bills b, paymentinfo p 
 -- WHERE h.user_id =1 AND h.bill_id=b.id AND h.payinfo_id=p.id;
+-- test success
 
+-- select * from user_mobile
+-- where user_id = 1 and start_time > '2014-04-19 00:00:00' and end_time < '2014-04-20 00:00:01';
+-- test success
+
+-- select um.id, um.user_id, um.mobile_id, um.start_time, um.end_time, m.emulator_flag from user_mobile um, mobiles m
+-- where um.mobile_id=m.id and um.user_id = 1 and um.start_time > '2014-04-19 00:00:00' and um.end_time < '2014-04-20 00:00:01'
+-- and m.emulator_flag=0;
+-- test sucess
