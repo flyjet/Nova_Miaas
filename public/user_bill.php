@@ -27,7 +27,7 @@ $emulatorCurrentMonthBill =BillManager::calculate_bill_by_type($emulatorCurrentM
 
 		        <div class="col-lg-8">
 				   	<ul class="nav navbar-nav navbar-right">
-				        <li><a href="index.php" >Sign Out </a></li>
+				        <li><a href="logout.php" >Sign Out </a></li>
 				        <li><a href="readmore.php" >About </a></li>
 				    </ul>  
 			    </div> 
