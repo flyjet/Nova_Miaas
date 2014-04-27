@@ -68,13 +68,13 @@ id int NOT NULL AUTO_INCREMENT,
 user_id int NOT NULL,
 mobile_id int NOT NULL,
 start_time timestamp NOT NULL,
-end_time timestamp NOT NULL,
+end_time timestamp, -- should not default not null
 FOREIGN KEY (user_id) REFERENCES users(id)
  ON DELETE CASCADE ON UPDATE CASCADE,
 FOREIGN KEY (mobile_id) REFERENCES mobiles(id)
  ON DELETE CASCADE ON UPDATE CASCADE,
 PRIMARY KEY (id)
-);
+); 
 
 insert into user_mobile (user_id,mobile_id, start_time, end_time) values 
 (1,1,'2014-04-19 00:00:01', '2014-04-19 10:00:01'),
