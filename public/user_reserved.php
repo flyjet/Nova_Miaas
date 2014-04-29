@@ -1,15 +1,11 @@
+<?php include("../includes/initialize.php"); ?>
+
+
 <?php include("../includes/layouts/header.php"); ?>
 
 			<!-- row 1 start in header -->
-
-		        <div class="col-lg-8">
-				   	<ul class="nav navbar-nav navbar-right">
-				        <li><a href="index.php" >Sign Out </a></li>
-				        <li><a href="readmore.php" >About </a></li>
-				    </ul>  
-			    </div> 
-			</header> <!-- end of class row 1-->
-
+			<?php include("aside_topright.php"); ?>
+		         <!-- end of class row 1-->
 			<!-- row 2 -->
 			<div class="row">
 				<aside class="col-lg-2" style="border-right: 1px solid #E4E4E4;">  <!-- side navbar -->

@@ -1,13 +1,16 @@
+<?php include("../includes/initialize.php"); ?>
+<?php UserManager::confirm_logged_in();?>
+<?php
+	$emulator_set = ResourceAllocation::found_freeEmulator_by_brand( "Samsung Galaxy S3 - 4.1.1");
+		if (!$emulator_set) {
+			//not have emulator is ready in server side
+  		}
+?>
 <?php include("../includes/layouts/header.php"); ?>
 
 			<!-- row 1 start in header -->
-
-		        <div class="col-lg-8">
-				   	<ul class="nav navbar-nav navbar-right">
-				        <li><a href="index.php" >Sign Out </a></li>
-				    </ul>  
-			    </div> 
-			</header> <!-- end of class row 1-->
+			<?php include("aside_topright.php"); ?>
+		         <!-- end of class row 1-->
 
 			<!-- row 2 -->
 			<div class="row">
@@ -32,6 +35,18 @@
 	         			<h2orange>Result</h2orange>
 	         		</div>
 	         		<p style="font-size:16px; margin-left:1em;"> Your Result </p>
+	         		<?php 
+	         			echo $_SESSION["user_id"];
+	         			echo "/";
+
+	         			if (isset($_SESSION["req_number"])){
+	         				echo $_SESSION["req_number"];
+	         				echo "   ";
+	         				}
+	         			if (isset($_SESSION['req_Instance'])){
+	         				echo $_SESSION['req_Instance'];
+	         				}	         			
+	         		?>
 	         		<br>
 
 	         	</article>

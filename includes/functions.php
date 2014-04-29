@@ -148,9 +148,11 @@ class BillManager{
 		$query .= "LIMIT {$number_limit} ";
 		$result_set = mysqli_query($connection, $query);
 		BasicHelper::confirm_query($result_set);
+		 $result_array = array();
 	    while ($row = mysqli_fetch_array($result_set)) {
 	        $result_array[] = $row;
 	    }
+
 	    return $result_array;
 				
 	}
@@ -184,9 +186,11 @@ class BillManager{
 		$query .= "LIMIT {$number_limit} ";
 		$result_set = mysqli_query($connection, $query);
 		BasicHelper::confirm_query($result_set);
+		$result_array = array();
 	    while ($row = mysqli_fetch_array($result_set)) {
 	        $result_array[] = $row;
 	    }
+
 	    return $result_array;
 				
 	}
@@ -324,8 +328,7 @@ class BillManager{
 	
 	
 	public static function find_mobiles_by_userid($user_id=0,$start="",$end=""){
-		
-		
+				
 		// issues of this funtion:
 		//could not consider the records duration over the start time point, or end time point!!!
 		global $connection;		
@@ -346,8 +349,7 @@ class BillManager{
 	    while ($row = mysqli_fetch_array($result_set)) {
 	        $result_array[] = $row;
 	    }
-	    return $result_array;
-		
+	    return $result_array;		
 	}
 	
 	public static function buildMobileUsageReportArray($user_id,$start,$end,$used_mobiles_array){
@@ -385,17 +387,74 @@ class BillManager{
 	return $output;
 	
    }   
-   
-	
-	
-	
-	
-	
+   	
 }
 
+	class ResourceAllocation{
+
+		//get all the emulators brand name and API for user to select
+		public static function allEmulators(){
+			global $connection;	
+			$query  = "SELECT DISTINCT brand, api ";
+			$query .= "FROM mobiles ";
+			$query .= "WHERE emulator_flag = 0 ;";
+			$result_set = mysqli_query($connection, $query);
+			BasicHelper::confirm_query($result_set);
+			
+  			while($row = mysqli_fetch_assoc($result_set)) { 
+				$emulator ="";
+				$emulator .= $row["brand"];
+				$emulator .= ", ";
+				$emulator .= $row["api"];	
+				$emulator .= " ";
+				$result_array[] = $emulator;
+			}
+			return $result_array; 
+		}
 
 
+    //get all devices brand name and API for user to select
+		public static function allDevices(){
+			global $connection;	
+			$query  = "SELECT DISTINCT brand, api ";
+			$query .= "FROM mobiles ";
+			$query .= "WHERE emulator_flag = 1 ;";
+			$result_set = mysqli_query($connection, $query);
+			BasicHelper::confirm_query($result_set);
+
+			while ($row = mysqli_fetch_assoc($result_set)){
+				$device ="";
+				$device .= $row["brand"];
+				$device .= ", ";
+				$device .= $row["api"];	
+				$device .= " ";
+				$result_array[] = $device;
+			    $result_array[] = $row;
+			}	
+			return $result_array;
+		}
+
+	//get free emulator by brand name
+		public static function found_freeEmulator_by_Brand($emulator_brand){
+			global $connection;	
 
 
+			$query  = "SELECT * ";
+			$query .= "FROM mobiles ";
+			$query .= "WHERE emulator_flag = 0 ";
+			$query .= "AND status= 0 " ;
+			$query .= "AND brand = '{$emulator_brand}'; ";
+			$result_set = mysqli_query($connection, $query);
+			BasicHelper::confirm_query($result_set);
+
+			if($result_set){
+				echo "*******";
+			}
+
+			return $result_set;
+
+		}
+
+	}
 
 ?>
