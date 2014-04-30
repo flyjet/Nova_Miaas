@@ -46,7 +46,7 @@
 		                series: {
 		                    0:{ color: 'orange', visibleInLegend: true}          
 		                },
-		                hAxis: {title: 'Time', titleTextStyle:{color: '#03619D'} },
+		                hAxis: {title: 'Bill Start Time', titleTextStyle:{color: '#03619D'} },
 		                vAxis: {title: 'Bill Amount', titleTextStyle:{color: '#03619D'}, minValue: 0 }
 		            };
 			

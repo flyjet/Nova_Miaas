@@ -1,14 +1,9 @@
+<?php include("../includes/initialize.php"); ?>
 <?php include("../includes/layouts/header.php"); ?>
 
 			<!-- row 1 start in header -->
-
-		        <div class="col-lg-8">
-				   	<ul class="nav navbar-nav navbar-right">
-				        <li><a href="register.php" >Sign Up </a></li>
-				       	<li><a href="login.php" >Sign In </a></li>
-				    </ul>  
-			    </div> 
-			</header> <!-- end of class row 1-->
+         <?php include("aside_topright_for_readmore.php"); ?>
+	      <!-- end of class row 1-->
 
 			<!-- row 2 -->
 			<div class="row">
@@ -36,8 +31,11 @@
 		    	
 		    	<br>
 		    	<br>
+                <?php 
+   			    if (!isset($_SESSION["first_name"])) { ?>
 		    	<span>Get Started for Free</span>
 				<a class="btn btn-warning" href="register.php">Create Free Account</a> 
+				<?php } ?>
 				
 			</div>
 

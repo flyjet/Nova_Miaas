@@ -1,3 +1,41 @@
+<?php include("../includes/initialize.php"); ?>
+<?php UserManager::confirm_logged_in();?>
+<?php
+
+if (isset($_POST['submit'])) {
+  // Process the form 
+  // validations
+  $required_fields = array("cardnumber","name","expire","street","city","state","postal","country","phone");
+  ValidationHelper::validate_presences($required_fields); 
+  if (empty(Session::$errors)) {   
+    // Perform Insert
+	$userid=$_SESSION["user_id"];
+	$cardnumber = BasicHelper::escape_value($_POST["cardnumber"]);
+	$name = BasicHelper::escape_value($_POST["name"]);
+	$expire = BasicHelper::escape_value($_POST["expire"]);
+	$street = BasicHelper::escape_value($_POST["street"]);
+	$city = BasicHelper::escape_value($_POST["city"]);
+	$state = BasicHelper::escape_value($_POST["state"]);
+	$postal = BasicHelper::escape_value($_POST["postal"]);
+	$country = BasicHelper::escape_value($_POST["country"]);
+	$phone = BasicHelper::escape_value($_POST["phone"]);
+	
+	$result = UserManager::insert_paymentinfo($userid, $cardnumber, $name, $expire,$street, $city, $state, $postal, $country,$phone);
+	if ($result) {
+	// Success
+	$_SESSION["message"] = "Your Payment information submitted.";
+	BasicHelper::redirect_to("user_dashboard.php");
+	} else {
+	// Failure
+	$_SESSION["message"] = "Your Payment information submition failed.";
+	} 
+	
+  
+  }
+} 
+
+
+?>
 <?php include("../includes/layouts/header.php"); ?>
 			<!-- row 1 start in header -->
 
@@ -10,7 +48,11 @@
 
 			<!-- row 2 -->
 			<div class="row">
-				<div class="col-lg-offset-1 col-lg-6" >  
+			<form action="register_c.php" method="post">
+				<div class="col-lg-offset-1 col-lg-6" >
+				    <?php echo Session::message(); ?>
+				    <?php echo Session::form_errors(Session::$errors); ?>  
+					
 		        	<h1orange>Payment Method  </h1orange>
 		        	<h4>Please fill the form below for payment information.</h4> <br>	
 		        		<div class="form-group">
@@ -55,14 +97,14 @@
 			        		<label for="phone">Phone Number</label> <br>    		
 			        		<input class="col-lg-4 " type="text" name="phone" placeholder="">
 			        	</div><br><br>
-		        	<a class="btn btn-warning" href="user_dashboard.php">Submit</a>
+		        	<input class="btn btn-warning" type="submit" name="submit" value="Submit" />
 
 	         	</div>
 
 	         	<div class=" col-lg-5">
 	         		<img src="image/cloud.png" alt="" >
 	         	</div>
-       
+            </form> 
 	    	</div><!-- end of class row 2-->
 
 <?php include("../includes/layouts/footer.php"); ?>

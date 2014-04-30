@@ -1,5 +1,5 @@
 <?php  //Nova_MIaaS functions, categorized into different class
-//class list: BasicHelper, UserManager,...
+//class list: BasicHelper, UserManager, BillManager,ResourceAllocation .....
 
 class BasicHelper{
 	public static function redirect_to($new_location) {
@@ -71,6 +71,21 @@ class UserManager{
 			return null;
 		}
 	}
+	
+	public static function find_all_user() {
+		global $connection;
+				
+		$query  = "SELECT * ";
+		$query .= "FROM users ";
+		$query .= "WHERE admin_authority = 0 ";
+		$result_set = mysqli_query($connection, $query);
+		BasicHelper::confirm_query($result_set);
+		$result_array = array();
+	    while ($row = mysqli_fetch_array($result_set)) {
+	        $result_array[] = $row;
+	    }
+	    return $result_array;	
+	}
 
 
 	public static function find_paymentinfo_by_userid( $user_id=0 ) {
@@ -90,6 +105,19 @@ class UserManager{
 		
 	}
 	
+	public static function insert_user($firstname="", $lastname="", $email="",$password=""){
+	    global $connection;
+		$query  = "insert into users (first_name, last_name, email, password) values ( ";
+	    $query .= " '{$firstname}', ";
+		$query .= " '{$lastname}', ";
+	    $query .= " '{$email}', ";
+	    $query .= " '{$password}') ";
+		$result = mysqli_query($connection, $query);
+		return $result;
+		
+	
+	}
+	
 	public static function update_user($userid=0, $firstname="", $lastname="", $email="",$password=""){
 		global $connection;
 		$query  = "UPDATE users SET ";
@@ -102,6 +130,26 @@ class UserManager{
 		$result = mysqli_query($connection, $query);
 		return $result;
 		
+	}
+	
+	public static function insert_paymentinfo(
+		$userid, $cardnumber, $name, $expire, $street, $city, $state, $postal, $country,$phone){
+	    global $connection;
+		$query  = "insert into paymentinfo (user_id, card_number, name_on_card,
+		          expire, street, city, state, postcode, country, phone) values ( ";
+	    $query .= " {$userid}, ";
+		$query .= " '{$cardnumber}', ";
+		$query .= " '{$name}', ";
+		$query .= " '{$expire}', ";
+		$query .= " '{$street}', ";
+	    $query .= " '{$city}', ";
+	    $query .= " '{$state}', ";
+		$query .= " '{$postal}', ";
+		$query .= " '{$country}', ";
+		$query .= " '{$phone}') ";
+		$result = mysqli_query($connection, $query);
+		return $result;	
+						
 	}
 	
 	public static function update_paymentinfo(
@@ -148,7 +196,7 @@ class BillManager{
 		$query .= "LIMIT {$number_limit} ";
 		$result_set = mysqli_query($connection, $query);
 		BasicHelper::confirm_query($result_set);
-		 $result_array = array();
+		$result_array = array();
 	    while ($row = mysqli_fetch_array($result_set)) {
 	        $result_array[] = $row;
 	    }
@@ -157,13 +205,41 @@ class BillManager{
 				
 	}
 	
-	public static function buildBillsArray($data_array){   
+	public static function find_bills_by_userid_and_time($user_id,$start ){
+		global $connection;		
+		$query  = "SELECT * ";
+		$query .= "FROM bills ";
+		$query .= "WHERE user_id = {$user_id} ";
+		$query .= "AND bill_start = '{$start}' ";
+		$query .= "LIMIT 1 ";
+		$result = mysqli_query($connection, $query);
+	    return $result;
+				
+	}
+	
+	public static function insert_bill ($userid, $start, $end, $due, $amount){
+	    global $connection;
+		$query  = "insert into bills (user_id, bill_start, bill_end, bill_due, amount) values ( ";
+	    $query .= " {$userid}, ";
+		$query .= " '{$start}', ";
+		$query .= " '{$end}', ";
+		$query .= " '{$due}', ";
+		$query .= " {$amount} ) ";
+		$result = mysqli_query($connection, $query);
+		return $result;	
+		
+	}
+	
+	
+	
+	public static function buildBillsArray($data_array){ 
+		//  $data_array should be array of bills
         //build array for google chart data
-	    $output = "['Time', 'Bill Amount'], ";
+	    $output = "['Bill Start Time', 'Bill Amount'], ";
 		$i=0;
 	    // The data needs to be in a format ['string', decimal]
 	   while (!empty($data_array[$i]) ){
-	        $output .= "['" . $data_array[$i]['bill_end'] . "', ";
+	        $output .= "['" . $data_array[$i]['bill_start'] . "', ";
 	        $output .= $data_array[$i]['amount'] . " ";  
 	        // On the final count do not add a comma
 	        if (!empty($data_array[$i+1]) ){
@@ -326,6 +402,47 @@ class BillManager{
 	    return $userBillTableData;
     }
 	
+    public static function find_and_build_bill_sum($user_id=0,$start="",$end=""){
+		//could find specifica user's all bill for emulator and device respectively during a specific time
+		//Post Condition: return an Array contain bill sum for total used time, total bill for each user
+		// issues of this funtion:
+		//could not consider the records duration over the start time point, or end time point!!!
+	    $deviceRecords = BillManager::find_usage_records_by_userid($user_id,"DEVICE", $start, $end);
+	    $deviceHourMobile = BillManager::calculate_total_hour_mobile($deviceRecords);
+	    $deviceBill =BillManager::calculate_bill_by_type($deviceHourMobile,"DEVICE");
+   
+
+	    $emulatorRecords = BillManager::find_usage_records_by_userid($user_id,"EMULATOR", $start,$end);
+	    $emulatorHourMobile = BillManager::calculate_total_hour_mobile($emulatorRecords);   
+	    $emulatorBill =BillManager::calculate_bill_by_type($emulatorHourMobile,"EMULATOR");
+   
+        $userBillSum['totalTime']=$deviceHourMobile + $emulatorHourMobile;
+		$userBillSum['totalBill']=$deviceBill + $emulatorBill;
+
+	    return $userBillSum;
+    }
+	
+	public static function findAndBuildUsersSumArray($users_array=NULL,$start="", $end=""){
+		//$users_arry should be users_array contain array of users
+		$output = "['User ID','User Name', 'Current Month Total Usage (hour*mobile)','Current Month Bill Amount ($)'], ";
+		$i=0;
+		while (!empty($users_array[$i]) ){
+			$userBillSum =	BillManager::find_and_build_bill_sum($users_array[$i]['id'],$start,$end);
+			$output .= "['" . $users_array[$i]['id'] . "', ";
+			$output .= " '". $users_array[$i]['first_name'] ." ".$users_array[$i]['last_name']. "', "; 
+			$output .= $userBillSum['totalTime'] . ", ";
+			$output .= $userBillSum['totalBill'] . ", ";
+		     // On the final count do not add a comma
+		     if (!empty($users_array[$i+1]) ){
+		         $output .= "],\n";
+		     } else {
+		         $output .= "]\n";
+		     }
+			$i++;
+		 };
+		return $output;
+	}
+	
 	
 	public static function find_mobiles_by_userid($user_id=0,$start="",$end=""){
 				
@@ -346,6 +463,7 @@ class BillManager{
 		$query .= ")";
 		$result_set = mysqli_query($connection, $query);
 		BasicHelper::confirm_query($result_set);
+		$result_array = array();
 	    while ($row = mysqli_fetch_array($result_set)) {
 	        $result_array[] = $row;
 	    }
