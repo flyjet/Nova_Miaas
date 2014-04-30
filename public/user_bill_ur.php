@@ -10,7 +10,7 @@
 	function make_data_for_previous_usage_and_bill($Minus=1){
 		global $previousMonthUsageTableData;
 		global $previousMonthBillTableData;
-		$previousBillEnd = date("Y-m-d H:i:s", mktime(0,0,0,date("m")-$Minus,1,date("Y")) );
+		$previousBillStart = date("Y-m-d H:i:s", mktime(0,0,0,date("m")-$Minus,1,date("Y")) );
 		$previousBillEnd = date("Y-m-d H:i:s", mktime(0,0,0,date("m")-$Minus+1,1,date("Y")) );
 		$previousUsedMobiles =BillManager::find_mobiles_by_userid($_SESSION["user_id"],$previousBillStart,$previousBillEnd );
 		$previousMonthUsageTableData=
@@ -69,9 +69,9 @@
 					<form action="user_bill_ur.php" method="post">
 						<select name="previous_month">
 						  <!-- <option value="">Select...</option> -->
-						  <option value=1 <?php if($Minus==1)echo 'selected';?> ><?php echo date("M", mktime(0,0,0,date("m")-1) );?></option>
-						  <option value=2 <?php if($Minus==2)echo 'selected';?> ><?php echo date("M", mktime(0,0,0,date("m")-2) );?></option>
-						  <option value=3 <?php if($Minus==3)echo 'selected';?> ><?php echo date("M", mktime(0,0,0,date("m")-3) );?></option>
+						  <option value=1 <?php if($Minus==1)echo 'selected';?> ><?php echo date("M", mktime(0,0,0,date("m")-1,1) );?></option>
+						  <option value=2 <?php if($Minus==2)echo 'selected';?> ><?php echo date("M", mktime(0,0,0,date("m")-2,1) );?></option>
+						  <option value=3 <?php if($Minus==3)echo 'selected';?> ><?php echo date("M", mktime(0,0,0,date("m")-3,1) );?></option>
 						</select>
 						<input class="btn btn-warning" type="submit" name="submit" value="Choose" />
 					</form>	

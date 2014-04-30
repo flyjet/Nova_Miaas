@@ -24,9 +24,13 @@ if($diff){
     echo 'Diff: '.gmdate('H:i:s', $diff).'<br>'; //not good
 	echo 'Diff: hour '.date('H', $diff).'<br>'; //not good
 	echo 'Diff: calculated hour '. ($diff/3600).'<br>'; //good
-	echo 'Diff: minutes '.$diff/60; //good
+	echo 'Diff: minutes '.($diff/60).'<br>'; //good
 }else{
-    echo 'No Diff.';
+    echo 'No Diff.<br>';
 }
+
+echo date("m");
+echo date("M");
+echo date("M", mktime(0,0,0,date("m")-2,1) );
 
 ?>
