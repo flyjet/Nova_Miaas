@@ -9,13 +9,8 @@
 <?php include("../includes/layouts/header.php"); ?>
 
 			<!-- row 1 start in header -->
-
-		        <div class="col-lg-8">
-				   	<ul class="nav navbar-nav navbar-right">
-				        <li><a href="logout.php" >Sign Out </a></li>
-				    </ul>  
-			    </div> 
-			</header> <!-- end of class row 1-->
+			<?php include("aside_topright.php"); ?>
+		         <!-- end of class row 1-->
 
 			<!-- row 2 -->
 			<div class="row">
