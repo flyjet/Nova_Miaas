@@ -137,7 +137,7 @@ class UserManager{
 	    global $connection;
 		$query  = "insert into paymentinfo (user_id, card_number, name_on_card,
 		          expire, street, city, state, postcode, country, phone) values ( ";
-	    $query .= " '{$userid}', ";
+	    $query .= " {$userid}, ";
 		$query .= " '{$cardnumber}', ";
 		$query .= " '{$name}', ";
 		$query .= " '{$expire}', ";
@@ -205,13 +205,41 @@ class BillManager{
 				
 	}
 	
-	public static function buildBillsArray($data_array){   
+	public static function find_bills_by_userid_and_time($user_id,$start ){
+		global $connection;		
+		$query  = "SELECT * ";
+		$query .= "FROM bills ";
+		$query .= "WHERE user_id = {$user_id} ";
+		$query .= "AND bill_start = '{$start}' ";
+		$query .= "LIMIT 1 ";
+		$result = mysqli_query($connection, $query);
+	    return $result;
+				
+	}
+	
+	public static function insert_bill ($userid, $start, $end, $due, $amount){
+	    global $connection;
+		$query  = "insert into bills (user_id, bill_start, bill_end, bill_due, amount) values ( ";
+	    $query .= " {$userid}, ";
+		$query .= " '{$start}', ";
+		$query .= " '{$end}', ";
+		$query .= " '{$due}', ";
+		$query .= " {$amount} ) ";
+		$result = mysqli_query($connection, $query);
+		return $result;	
+		
+	}
+	
+	
+	
+	public static function buildBillsArray($data_array){ 
+		//  $data_array should be array of bills
         //build array for google chart data
-	    $output = "['Time', 'Bill Amount'], ";
+	    $output = "['Bill Start Time', 'Bill Amount'], ";
 		$i=0;
 	    // The data needs to be in a format ['string', decimal]
 	   while (!empty($data_array[$i]) ){
-	        $output .= "['" . $data_array[$i]['bill_end'] . "', ";
+	        $output .= "['" . $data_array[$i]['bill_start'] . "', ";
 	        $output .= $data_array[$i]['amount'] . " ";  
 	        // On the final count do not add a comma
 	        if (!empty($data_array[$i+1]) ){

@@ -20,7 +20,7 @@ if (isset($_POST['submit'])) {
 		$_SESSION["email"] = $found_user["email"];
 		$_SESSION["first_name"] = $found_user["first_name"];
 		if ($found_user["admin_authority"] == 1 ) BasicHelper::redirect_to("admin_dashboard.php");
-		else BasicHelper::redirect_to("user_dashboard.php");
+		else BasicHelper::redirect_to("calculate_bill_and_store.php");
     } else {
       // Failure
       $_SESSION["message"] = "Email/password not found.";
