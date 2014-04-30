@@ -392,6 +392,10 @@ class BillManager{
 
 	class ResourceAllocation{
 
+		public static $maxMobiles_perHost=5;
+
+
+
 		//get all the emulators brand name and API for user to select
 		public static function allEmulators(){
 			global $connection;	
@@ -427,34 +431,75 @@ class BillManager{
 				$device .= $row["brand"];
 				$device .= ", ";
 				$device .= $row["api"];	
-				$device .= " ";
 				$result_array[] = $device;
-			    $result_array[] = $row;
 			}	
 			return $result_array;
 		}
 
-	//get free emulator by brand name
-		public static function found_freeEmulator_by_Brand($emulator_brand){
+
+	//Order hostid by used_emulator_no, from big number   
+		public static function order_HostId_emulator(){
 			global $connection;	
+			$query  = " SELECT id, used_emulator_no FROM hosts ";
+			$query .= " WHERE status=1 ";
+			$query .= " ORDER BY used_emulator_no DESC; ";
+			$result_set = mysqli_query($connection, $query);
+			BasicHelper::confirm_query($result_set);		
+
+			return $result_set;
+		}
+
+	//Order hostid by used_device_no  //pass test
+		public static function order_HostId_device(){
+			global $connection;	
+			$query  = " SELECT id, used_device_no  FROM hosts ";
+			$query .= " WHERE status=1 ";
+			$query .= " ORDER BY used_device_no DESC; ";
+			$result_set = mysqli_query($connection, $query);
+			BasicHelper::confirm_query($result_set);		
+
+			return $result_set;
+		}
 
 
+	//get free emulator by brand name, host_id, and limit
+		public static function found_freeEmulator_by_Brand($emulator, $host_id, $limit){
+			$emulatorArray = explode(",", $emulator); //splitting string 
+			$emulator_brand = $emulatorArray[0];
+
+			global $connection;	
 			$query  = "SELECT * ";
 			$query .= "FROM mobiles ";
 			$query .= "WHERE emulator_flag = 0 ";
-			$query .= "AND status= 0 " ;
-			$query .= "AND brand = '{$emulator_brand}'; ";
+			$query .= "AND status= 0 ";
+			$query .= "AND host_id = '{$host_id}' ";
+			$query .= "AND brand = '{$emulator_brand}' ";
+			$query .= "LIMIT {$limit}; ";
 			$result_set = mysqli_query($connection, $query);
 			BasicHelper::confirm_query($result_set);
-
-			if($result_set){
-				echo "*******";
-			}
-
 			return $result_set;
-
 		}
 
+	//from emulator_set to message_array
+		public static function get_message_array_on($emulator_set,$userId,$emuFlag,$hostId){
+			$i =0;
+			while($rowEmulator = mysqli_fetch_assoc($emulator_set)){
+		  			$emulator_id = $rowEmulator["id"];
+		  			$message_array[$i]  = $userId;
+		  			$message_array[$i] .= "/";
+		  			$message_array[$i] .=$emuFlag;
+		  			$message_array[$i] .="/";
+		  			$message_array[$i] .= $hostId;
+					$message_array[$i] .= "/";
+	  				$message_array[$i] .= $emulator_id ;
+	  				$message_array[$i] .= "/";
+		  			$message_array[$i] .= "on";
+		  			echo $message_array[$i] ;
+		  			echo "**";
+		  			$i++;
+		  	}
+		  	return $message_array;
+		}
 	}
 
 ?>

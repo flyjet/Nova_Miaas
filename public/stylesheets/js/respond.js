@@ -2,6 +2,21 @@
 
 (function( w ){
 
+	//
+	 $(function()
+                {
+                         $( "#datepicker" ).datepicker();
+                         $("#icon").click(function() { $("#datepicker").datepicker( "show" );})
+                 });
+
+
+	 $(function()
+                {
+                         $( "#timepicker" ).timepicker();
+                         $("#icon").click(function() { $("#timepicker").timepicker( "show" );})
+                 });
+
+
 	"use strict";
 
 	//exposed namespace

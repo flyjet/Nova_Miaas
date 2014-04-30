@@ -166,6 +166,38 @@ insert into pay_history(user_id,bill_id,payinfo_id,paid_time)values
 	(1,8,1,'2014-02-14 00:00:00'),
 	(1,9,1,'2014-03-27 00:00:00');
 
+
+-- change tables hosts values, according values from tables mobiles 
+
+UPDATE hosts SET used_device_no=2,used_emulator_no=2 WHERE id=1;
+UPDATE hosts SET used_emulator_no=2 WHERE id=2;
+
+-- insert more emulators to each host have 5 emualotrs ( for both Google and Samsung)
+insert into mobiles (emulator_flag,brand, api, name, host_id) values 
+(0,'Google Galaxy Nexus - 4.3', 'API 18','Google Galaxy Nexus - 4.3 - API 18 - 720x1280', 1),
+(0,'Google Galaxy Nexus - 4.3', 'API 18','Google Galaxy Nexus - 4.3 - API 18 - 720x1280', 1),
+(0,'Google Galaxy Nexus - 4.3', 'API 18','Google Galaxy Nexus - 4.3 - API 18 - 720x1280', 1),
+(0,'Google Galaxy Nexus - 4.3', 'API 18','Google Galaxy Nexus - 4.3 - API 18 - 720x1280', 1);
+
+insert into mobiles (emulator_flag,brand, api, name, host_id) values 
+(0,'Google Galaxy Nexus - 4.3', 'API 18','Google Galaxy Nexus - 4.3 - API 18 - 720x1280', 2),
+(0,'Google Galaxy Nexus - 4.3', 'API 18','Google Galaxy Nexus - 4.3 - API 18 - 720x1280', 2),
+(0,'Google Galaxy Nexus - 4.3', 'API 18','Google Galaxy Nexus - 4.3 - API 18 - 720x1280', 2),
+(0,'Google Galaxy Nexus - 4.3', 'API 18','Google Galaxy Nexus - 4.3 - API 18 - 720x1280', 2);
+
+
+--------some query only for test------- 
+
+select id from hosts WHERE status=1 ORDER BY used_emulator_no DESC;
+select id from hosts WHERE status=1 ORDER BY used_device_no DESC;
+
+
+
+
+
+
+-----------------------------------------------
+
 	
 -- SELECT h.user_id, h.paid_time, b.amount, p.card_number
 -- FROM pay_history h, bills b, paymentinfo p 

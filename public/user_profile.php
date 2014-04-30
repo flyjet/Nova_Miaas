@@ -81,14 +81,9 @@ else if (isset($_POST['paymentinfosubmit'])) {
 
 	         	<article class="col-lg-10">
                 <form action="user_profile.php" method="post">
-					
-	         		<div class="row" style="border-bottom: 1px solid #E4E4E4; margin-left:1em;">
-	         		<h2orange>Account Profile</h2orange>
+	         		
 				    <?php echo Session::message(); ?>
 				    <?php echo Session::form_errors(Session::$errors); ?>
-	         		</div>
-	         		<p style="font-size:16px; margin-left:1em;"> </p>
-	         		<br>
 
 					<div class="row" style="border-bottom: 1px solid #E4E4E4; margin-left:1em;">
 	         			<h2orange>Contact Information</h2orange>
