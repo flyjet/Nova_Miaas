@@ -186,6 +186,13 @@ insert into mobiles (emulator_flag,brand, api, name, host_id) values
 (0,'Google Galaxy Nexus - 4.3', 'API 18','Google Galaxy Nexus - 4.3 - API 18 - 720x1280', 2);
 
 
+-- update host_ip
+UPDATE hosts set host_ip="192.168.2.66" where id=2;
+UPDATE hosts set host_ip="192.168.2.55" where id=1;
+
+
+
+
 --------some query only for test------- 
 
 select id from hosts WHERE status=1 ORDER BY used_emulator_no DESC;

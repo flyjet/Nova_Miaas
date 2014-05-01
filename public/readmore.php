@@ -27,15 +27,15 @@
 
 
 			<!-- row 3 -->
-		    <div class="col-lg-offset-4" >
-		    	
+		    	<div class="col-lg-offset-4" >		    	
 		    	<br>
 		    	<br>
-                <?php 
-   			    if (!isset($_SESSION["first_name"])) { ?>
-		    	<span>Get Started for Free</span>
+		    	<?php 
+   			    if (!isset($_SESSION["first_name"])) { ?>   
+                
+		    	<span>Get Started for Free</span> 
 				<a class="btn btn-warning" href="register.php">Create Free Account</a> 
-				<?php } ?>
+				<?php } ?> 
 				
 			</div>
 

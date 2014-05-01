@@ -598,6 +598,34 @@ class BillManager{
 			return $result_set;
 		}
 
+	//get host_ip by host id
+		public static function found_hostIp_by_hostId($host_id){
+			global $connection;	
+			$query  = "SELECT * ";
+			$query .= "FROM hosts ";
+			$query .= "WHERE id ='{$host_id}'; ";
+			$result_set = mysqli_query($connection, $query);
+			BasicHelper::confirm_query($result_set);
+			$row = mysqli_fetch_assoc($result_set);
+			return $row["host_ip"];
+
+		}
+
+	//get host_ip by host id
+		public static function found_emulatorName_by_emuId($emulator_id){
+			global $connection;	
+			$query  = "SELECT * ";
+			$query .= "FROM mobiles ";
+			$query .= "WHERE emulator_flag = 0 ";
+			$query .= " AND id ='{$emulator_id}'; ";
+			$result_set = mysqli_query($connection, $query);
+			BasicHelper::confirm_query($result_set);
+			$row = mysqli_fetch_assoc($result_set);
+			return $row["name"];
+
+		}
+
+
 	//from emulator_set to message_array
 		public static function get_message_array_on($emulator_set,$userId,$emuFlag,$hostId){
 			$i =0;

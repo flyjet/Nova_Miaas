@@ -8,8 +8,8 @@
 
     //creating Amazon SNS
     $sns = SNSClient::factory(array(
-        'key'    => 'AKIAJ7C26KLAZOUNC3PA',
-        'secret' => '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',
+        'key'    => 'AKIAJYYAHUDDRUVSGCUQ',
+        'secret' => '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',
         'region' => 'us-east-1',
     ));    
                
@@ -26,8 +26,8 @@
     
     //creating Amazon SQS    
     $sqs = SQSClient::factory(array(    
-        'key'    => 'AKIAJ7C26KLAZOUNC3PA',
-        'secret' => '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',
+        'key'    => 'AKIAJYYAHUDDRUVSGCUQ',
+        'secret' => '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',
         'region' => 'us-east-1',
     ));
     
@@ -79,16 +79,20 @@
     $receive_result = $sqs->receiveMessage(array(
         'QueueUrl' => "https://sqs.us-east-1.amazonaws.com/024141142612/test-queue",
     ));
-    
-    // echo $receive_result;
-    // print_r($receive_result);
-    //echo $receive_resuilt->body; //->ReceiveMessageResult->Message->ReceiptHandle;
-    // echo "\n". $receive_result->get('Messages')->get('Message');
-     foreach ($receive_result->getPath('Messages/*/Body') as $messageBody) {
-         $msg = json_decode($messageBody, true);
-         echo $msg['Message'];
+
+    foreach ($receive_result->getPath('Messages') as $msg) {
+         $msg_hdr = $msg["ReceiptHandle"];
+         $msg_body = json_decode($msg['Body'], true);
+         print_r($msg_hdr);
+         echo $msg_body['Message'];
+         $delete_result = $sqs->deleteMessage( array(
+              'QueueUrl' => "https://sqs.us-east-1.amazonaws.com/024141142612/test-queue",
+              'ReceiptHandle' => $msg_hdr, ));
     } 
     echo "\n";
+
+
+
 
 
 ?>

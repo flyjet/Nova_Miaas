@@ -6,11 +6,15 @@
 
 	class SQS_message{
 
+		public static $receive_Message = "";
+		public static $receiveMessage_handle = "";
+		public static $receiveMessage_queueUrl ="https://sqs.us-east-1.amazonaws.com/024141142612/receivedfrom_Host";
+
 		public static function init_SNS(){
 		   
 		    $sns = SNSClient::factory(array(
-	        'key'    => 'AKIAIAAYH7HGLTEJQX5Q',
-	        'secret' => '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',
+	        'key'    => 'AKIAJYYAHUDDRUVSGCUQ',
+	        'secret' => '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',
 	        'region' => 'us-east-1',
 	    	));  
 	    	return $sns;
@@ -19,8 +23,8 @@
 		public static function init_SQS(){
 		   
 		    $sqs  = SQSClient::factory(array(
-	        'key'    => 'AKIAIAAYH7HGLTEJQX5Q',
-	        'secret' => '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',
+	        'key'    => 'AKIAJYYAHUDDRUVSGCUQ',
+	        'secret' => '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',
 	        'region' => 'us-east-1',
 	    	));  
 	    	return $sqs;
@@ -46,17 +50,25 @@
 			$message ="";
 			$sqs = SQS_message::init_SQS();
 			$receive_result = $sqs->receiveMessage(array(
-	      		  'QueueUrl' => "https://sqs.us-east-1.amazonaws.com/024141142612/receivedfrom_Host",
+	      		  'QueueUrl' => SQS_message::$receiveMessage_queueUrl ,
 	   		));
-
-	   		foreach ($receive_result->getPath('Messages/*/Body') as $messageBody) {
-		         $msg = json_decode($messageBody, true);
-		         $message = $msg['Message'];
-		         //$message .=$msg['ReceiptHandle'];
+			if($receive_result){
+				foreach ($receive_result->getPath('Messages') as $msg) {
+	   			$receiveMessage_handle = $msg["ReceiptHandle"];
+	   			$msg_body = json_decode($msg['Body'], true);
+	   			$receive_Message = $msg_body['Message'];
         	}
-         	return $message;  
-         }
+        	$message = $receive_Message ;
+        	$message .= "*";
+        	$message .= $receiveMessage_handle;
+        	$message .="*";
+        	$message .=SQS_message::$receiveMessage_queueUrl;
+			}
+         	return $message;
+         } 
 
+         //delete message from Queue
+  
          public static function delete_message_from_SQS($Url, $Handle){
 
          	$sqs = SQS_message::init_SQS();
