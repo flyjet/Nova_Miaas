@@ -18,7 +18,7 @@
 			            </ul> 
 	         	</aside>
 
-	         	<article class="col-lg-8" style="margin-left:2em;">
+	         	<article class="col-lg-6" style="margin-left:2em;">
 	         		<h1orange>Nova MIaaS Benefits</h1orange>
 	         		<p style="font-size:16px;"> Nova MIaaS benefits </p>
 

@@ -1,8 +1,10 @@
 <?php include("../includes/initialize.php"); ?>
+<?php include("../includes/SQS.php"); ?>
 <?php UserManager::confirm_logged_in();?>
 <?php
 	$reqNumber = $_SESSION["req_number"];
 	$message_array = array();
+	$begin_array=array();
 
   	$hostId_set= ResourceAllocation::order_HostId_emulator();   //get host_Id, and used_device_no in assocate array
   		while ($row = mysqli_fetch_assoc($hostId_set)){  //loope each host 
@@ -16,7 +18,8 @@
 					$_SESSION["message"] = "There is some problem to progress your request, please try again. ";
 		  		}
 		  		else{
-		  			ResourceAllocation::get_message_array_on($emulator_set,$_SESSION["user_id"],"0",$hostId);
+		  			$begin_array= ResourceAllocation::get_message_array_on($emulator_set,$_SESSION["user_id"],"0",$hostId);
+		  			$message_array=array_merge($message_array, $begin_array);
 		  		 	break; 
 		  		} //end of else
 
@@ -29,13 +32,32 @@
 		  		}
 		  		else{
 		  			$reqNumber = $reqNumber - $freeNum;
-		  			ResourceAllocation::get_message_array_on($emulator_set,$_SESSION["user_id"],"0",$hostId);
-		  		}
-		  		
+		  			$begin_array= ResourceAllocation::get_message_array_on($emulator_set,$_SESSION["user_id"],"0",$hostId);
+		  			$message_array=array_merge($message_array, $begin_array);
+		  		}		  		
   			}
   		}
-
 ?>
+<?php	
+	$arrlength=count($message_array);
+	for($x=0;$x<$arrlength;$x++) {
+		$send =SQS_message::send_message_to_SQS($message_array[$x]);
+		if($send){
+			echo "send request to SQS  **";
+			echo $message_array[$x];
+		}
+		else{
+			echo "something wrong when send request to SQS";
+		}
+	}
+?>
+<?php
+	//???????????????????????
+	//need while loop to check if the Queue has message
+	$messagebody= SQS_message::receive_message_from_SQS();
+	echo $messagebody;
+?>
+
 <?php include("../includes/layouts/header.php"); ?>
 
 			<!-- row 1 start in header -->
@@ -50,6 +72,17 @@
 	         			<h2orange>Result</h2orange>
 	         		</div>
 	         		<p style="font-size:16px; margin-left:1em;"> Your Result </p>
+
+	         		<?php
+	         			$arrlength=count($message_array);
+
+	         			for($x=0;$x<$arrlength;$x++) {
+							  echo $message_array[$x];
+							  echo "<br>";
+						}
+	         		?>
+
+
 	         		<img src="image/loading4.gif"  id="loading-indicator"/>
 	         	</article>
 	    	</div><!-- end of class row 2-->

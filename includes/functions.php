@@ -612,12 +612,13 @@ class BillManager{
 	  				$message_array[$i] .= $emulator_id ;
 	  				$message_array[$i] .= "/";
 		  			$message_array[$i] .= "on";
-		  			echo $message_array[$i] ;
-		  			echo "**";
 		  			$i++;
 		  	}
 		  	return $message_array;
 		}
-	}
+	}//end of class
+
+
+
 
 ?>

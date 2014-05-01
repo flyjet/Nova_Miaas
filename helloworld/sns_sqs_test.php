@@ -8,40 +8,41 @@
 
     //creating Amazon SNS
     $sns = SNSClient::factory(array(
-        'key'    => '',
-        'secret' => '',
+        'key'    => 'AKIAJ7C26KLAZOUNC3PA',
+        'secret' => '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',
         'region' => 'us-east-1',
     ));    
                
     //creating a new topic in the SNS
-    $response_topic = $sns->createTopic(array(
-        'Name' => 'test-topic',
-    ));
+//    $response_topic = $sns->createTopic(array(
+//        'Name' => 'test-topic',
+//    ));
     
     //get topic arn
-    $topic_arn = $response_topic->get('TopicArn');
+//    $topic_arn = $response_topic->get('TopicArn');
     
-    echo $topic_arn;
+//    echo $topic_arn;
     
     
     //creating Amazon SQS    
-        'key'    => '',
-        'secret' => '',
+    $sqs = SQSClient::factory(array(    
+        'key'    => 'AKIAJ7C26KLAZOUNC3PA',
+        'secret' => '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',
         'region' => 'us-east-1',
     ));
     
     //creating a new queue in SQS
-    $response_queue = $sqs->createQueue(array(
-        'QueueName' => 'test-queue',
-    ));
+ //   $response_queue = $sqs->createQueue(array(
+ //       'QueueName' => 'test-queue',
+ //   ));
     
     //grabing the queue_url
-    $queue_url = $response_queue->get('QueueUrl');    
-    echo $queue_url;    
+//    $queue_url = $response_queue->get('QueueUrl');    
+//    echo $queue_url;    
     
     //grabing the queue_arn
-    $queue_arn = $sqs->getQueueArn( $queue_url);
-    echo $queue_arn;
+//    $queue_arn = $sqs->getQueueArn( $queue_url);
+//    echo $queue_arn;
     
     
     //set Queue attribute
@@ -49,37 +50,45 @@
    
     //subscribing the topic to sqs .Now a new message to SNS, will push the message into the SQS
 
-    $result = $sns->subscribe(array(
-        'TopicArn' => $topic_arn,
-        'Protocol' => 'sqs',
-        'Endpoint' => $queue_arn,
-        ));
+//    $result = $sns->subscribe(array(
+//        'TopicArn' => $topic_arn,
+//        'Protocol' => 'sqs',
+//        'Endpoint' => $queue_arn,
+//        ));
     
     
     //message publish to the topic arn
-    
+
+    /*
     $publish_result = $sns->publish(array(
-        'TopicArn' => $topic_arn,
+        'TopicArn' => "arn:aws:sns:us-east-1:024141142612:test-topic",
         'Message' => 'This is test for send message from SNS to SQS.',
     ));
     
     if ($publish_result) {
-        echo 'success sent notification of SNS to SQS.';
+        echo 'success sent notification of SNS to SQS.\n';
     }
     else {
-        echo 'Error sent notificaiton of SNS to SQS.';
+        echo 'Error sent notificaiton of SNS to SQS.\n';
     }
+     */
         
     
     //Received message from Queue
     
     $receive_result = $sqs->receiveMessage(array(
-        'QueueUrl' => $queue_url,
+        'QueueUrl' => "https://sqs.us-east-1.amazonaws.com/024141142612/test-queue",
     ));
     
-    foreach ($receive_result->getPath('Messages/*/Body') as $messageBody) {
-      
-        echo $messageBody;
-    }
+    // echo $receive_result;
+    // print_r($receive_result);
+    //echo $receive_resuilt->body; //->ReceiveMessageResult->Message->ReceiptHandle;
+    // echo "\n". $receive_result->get('Messages')->get('Message');
+     foreach ($receive_result->getPath('Messages/*/Body') as $messageBody) {
+         $msg = json_decode($messageBody, true);
+         echo $msg['Message'];
+    } 
+    echo "\n";
+
 
 ?>
