@@ -73,9 +73,22 @@
     }
      */
         
-    
+
+    // echo $receive_result;
+    // print_r($receive_result);
+    //echo $receive_resuilt->body; //->ReceiveMessageResult->Message->ReceiptHandle;
+    // echo "\n". $receive_result->get('Messages')->get('Message');
+    // foreach ($receive_result->getPath('Messages/*/Body') as $messageBody) {
+    //     $msg = json_decode($messageBody, true);
+    //     echo $msg['Message'];
+
+    //} 
+    //echo "\n";
+
+
+
     //Received message from Queue
-    
+
     $receive_result = $sqs->receiveMessage(array(
         'QueueUrl' => "https://sqs.us-east-1.amazonaws.com/024141142612/test-queue",
     ));
@@ -88,10 +101,8 @@
          $delete_result = $sqs->deleteMessage( array(
               'QueueUrl' => "https://sqs.us-east-1.amazonaws.com/024141142612/test-queue",
               'ReceiptHandle' => $msg_hdr, ));
-    } 
+    }
     echo "\n";
-
-
 
 
 

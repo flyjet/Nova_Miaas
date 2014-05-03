@@ -58,13 +58,18 @@
 	   			$msg_body = json_decode($msg['Body'], true);
 	   			$receive_Message = $msg_body['Message'];
         	}
+
+        	//echo $message= $msg['Body'];     //if message send driectly from Java
+        	
         	$message = $receive_Message ;
         	$message .= "*";
         	$message .= $receiveMessage_handle;
         	$message .="*";
         	$message .=SQS_message::$receiveMessage_queueUrl;
 			}
+
          	return $message;
+
          } 
 
          //delete message from Queue

@@ -611,6 +611,8 @@ class BillManager{
 
 		}
 
+
+
 	//get host_ip by host id
 		public static function found_emulatorName_by_emuId($emulator_id){
 			global $connection;	
@@ -624,6 +626,76 @@ class BillManager{
 			return $row["name"];
 
 		}
+
+
+	//get used moibles id by user_id
+		public static function found_usedMobilesId_by_userId($user_id){
+			global $connection;	
+			$query  = "SELECT DISTINCT mobile_id ";
+			$query .= "FROM user_mobile ";
+			$query .= "WHERE user_id = '{$user_id}'; ";
+			$result_set = mysqli_query($connection, $query);
+			BasicHelper::confirm_query($result_set);
+			return $result_set;		//return assoc array
+
+			
+		}
+
+	
+	//get user used mobiles list (Id, type, Brand Name, Host Ip, Instance Ip, Status, Action)
+
+		public static function found_all_usedMobiles_by_userId($user_id){
+
+
+			global $connection;	
+			$result = ResourceAllocation::found_usedMobilesId_by_userId($user_id);
+			$i=1;
+
+			while ($row = mysqli_fetch_assoc($result)) {
+				
+				$mobileId=$row["mobile_id"];
+				$query  = "SELECT * ";
+				$query .= "FROM mobiles, hosts ";
+				$query .= "WHERE mobiles.id = '{$mobileId}' ";
+				$query .= "AND host_id = hosts.id ";
+				$query .= "AND mobiles.status != 0 ";
+				$query .= "ORDER BY emulator_flag ; ";								
+				$result_set = mysqli_query($connection, $query);
+
+				BasicHelper::confirm_query($result_set);
+
+		
+				$mobiles_row = mysqli_fetch_array($result_set);
+
+				//print_r($mobiles_row);
+
+					$list =array();
+					$list[0] = $i;
+					if($mobiles_row["emulator_flag"]){
+						$list[1]= "Device ";
+					} else{
+						$list[1]= "Emulator";
+					}
+					$list[2] = $mobiles_row["brand"];
+					$list[3] = $mobiles_row["api"];
+					$list[4] = $mobiles_row["host_ip"];
+					$list[5] = $mobiles_row["ip"];
+					if($row["host_ip"]=1){
+						$list[6] ="Running " ;
+						$list[7] ="Stop" ;
+						$list[8] ="Terminate" ;
+					} else if($row["host_ip"]=2){
+						$list[6] ="Stop ";
+						$list[7] ="Start" ;
+						$list[8] ="Terminate" ;
+					}
+					$i++;
+			        $result_array[] = $list;   
+		    }//end of while loop
+		    	return $result_array;
+		}
+
+
 
 
 	//from emulator_set to message_array

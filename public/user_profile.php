@@ -121,7 +121,7 @@ else if (isset($_POST['paymentinfosubmit'])) {
 	         		<p style="font-size:16px; margin-left:1em;">  </p>
 	         		<br>
 
-	         		<div class="row" style="border-bottom: 1px solid #E4E4E4; margin-left:1em;">
+	         		<div class="row" style=" margin-left:1em;">
 	         			<h2orange>Payment Information</h2orange>
 			        		<div class="form-group">
 				        		<label for="cardnumber">Credit Card Number </label> <br>    		

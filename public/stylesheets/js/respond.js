@@ -128,13 +128,10 @@
 			body.style.fontSize = "100%";
 
 			body.appendChild( div );
-
 			if( fakeUsed ){
 				docElem.insertBefore( body, docElem.firstChild );
 			}
-
 			ret = div.offsetWidth;
-
 			if( fakeUsed ){
 				docElem.removeChild( body );
 			}

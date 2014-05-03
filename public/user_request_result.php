@@ -78,7 +78,6 @@
 	}
 
 ?>
-
 <?php include("../includes/layouts/header.php"); ?>
 
 			<!-- row 1 start in header -->
@@ -97,7 +96,7 @@
 	         			if(!$send ||!$receive){
 	         		?>
 	         			<p style="font-size:16px; margin-left:1em;"> Please Wait </p>
-	         			<img src="image/loading4.gif"  id="loading-indicator" style="margin-left:1em;" />
+	         			<img id="myimg" src="image/loading4.gif"  id="loading-indicator" style="margin-left:1em;" />
 	         		<?php
 	         			}
 	         		?>
@@ -105,7 +104,7 @@
 	         				Your request &nbsp &nbsp <?php echo $_SESSION["req_number"]; ?> &nbsp <?php echo $_SESSION["req_Instance"]; ?> 
 	         				<br>
 	         				<br>
-	         				<p class="bg-info col-lg-8" style="height:3em;">
+	         				<p class="bg-info" style="height:3em; margin-left:1em;">
 	         					<span class="glyphicon glyphicon-ok" style="color: #3EA055;"></span>&nbsp
 	         					<h3green>Your instance is now launching</h3green> <br></p>
 
@@ -118,6 +117,7 @@
 			                    <th>HostIp Address</th>
 			                    <th>Emulator Name</th>
 			                    <th>Status</th>
+			                    <th>Emulator IP</th>	
 			                  </tr>
 			                </thead>
 			                <tbody>
@@ -138,9 +138,11 @@
 
 	              		<p style="font-size:17px; margin-left:1em;"> 
 	              			<h2orange>Connect to your instance</h2orange>
-	              			<li> Open an SSH client.</li>
-	              			<li> Connect to your instance using its Host Ip</li>
-	              			<li> Example:</li>
+	              			<ol style="font-size:15px;">
+		              			<li> Open an SSH client.</li>
+		              			<li> Connect to your instance using its Host Ip</li>
+		              			<li> Example:</li>
+	              			</ol>
 	              	
 	         				<br>
 	         				<br>

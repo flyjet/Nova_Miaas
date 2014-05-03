@@ -190,6 +190,13 @@ insert into mobiles (emulator_flag,brand, api, name, host_id) values
 UPDATE hosts set host_ip="192.168.2.66" where id=2;
 UPDATE hosts set host_ip="192.168.2.55" where id=1;
 
+-- update mobiles_staus;
+
+UPDATE mobiles set status=1 where id=1;
+UPDATE mobiles set status=1 where id=2;
+UPDATE mobiles set status=1 where id=3;
+UPDATE mobiles set status=1 where id=5;
+
 
 
 
