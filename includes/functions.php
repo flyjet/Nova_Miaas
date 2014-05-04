@@ -641,6 +641,44 @@ class BillManager{
 			
 		}
 
+
+	//get user result list (type, Host Ip, Instance Ip, Brand Name, API, Status)
+
+		public static function found_mobile_Result_by_instanceId($hostId,$instanceId){
+			global $connection;	
+			$hostIp = ResourceAllocation::found_hostIp_by_hostId($hostId);
+
+			$query  = "SELECT * ";
+			$query .= "FROM mobiles ";
+			$query .= "WHERE id ='{$instanceId}' ";
+			$query .= "AND host_id = '{$hostId}' ";
+			$result_set = mysqli_query($connection, $query);
+			BasicHelper::confirm_query($result_set);
+			$row = mysqli_fetch_assoc($result_set);
+
+			$list =array();
+			if($row["emulator_flag"]=0){
+				$list[0]= "emulator";
+			} elseif($row["emulator_flag"]=1) {
+				$list[0]= "device";
+			}
+			$list[2] = $hostIp;
+			$list[3] = $row["ip"];
+			$list[4] = $row["brand"];
+			$list[4] .= "/";
+			$list[4] .= $row["api"];
+			if($row["status"]=0){
+				$list[5] = "Terminate";
+			} elseif($row["status"]=1){
+				$list[5] = "Running";
+			} else{
+				$list[5] = "Stop";
+			}
+
+			return $list;
+		}
+
+
 	
 	//get user used mobiles list (Id, type, Brand Name, Host Ip, Instance Ip, Status, Action)
 
@@ -689,6 +727,7 @@ class BillManager{
 						$list[7] ="Start" ;
 						$list[8] ="Terminate" ;
 					}
+					$list[9] =$mobileId;
 					$i++;
 			        $result_array[] = $list;   
 		    }//end of while loop
@@ -698,7 +737,7 @@ class BillManager{
 
 
 
-	//from emulator_set to message_array
+	//from emulator_set to message_array for new request to start
 		public static function get_message_array_on($emulator_set,$userId,$emuFlag,$hostId){
 			$i =0;
 			while($rowEmulator = mysqli_fetch_assoc($emulator_set)){
@@ -716,6 +755,34 @@ class BillManager{
 		  	}
 		  	return $message_array;
 		}
+
+
+	//from instanceId to message_array for stop-off, start- on, terminate - ter
+		public static function get_message_string($instanceId,$userId,$action){
+
+			global $connection;	
+			$query  = "SELECT * ";
+			$query .= "FROM mobiles ";
+			$query .= "WHERE id ='{$instanceId}'; ";
+			$result_set = mysqli_query($connection, $query);
+			BasicHelper::confirm_query($result_set);
+			$row = mysqli_fetch_assoc($result_set);
+
+			$message = $userId;
+			$message .= "/";
+			$message .= $row["emulator_flag"];
+			$message .= "/";
+			$message .= $row["host_id"];
+			$message .= "/";
+			$message .= "$instanceId";
+			$message .= "/";
+			$message .= $action;
+
+			return $message;
+		}
+
+
+
 	}//end of class
 
 

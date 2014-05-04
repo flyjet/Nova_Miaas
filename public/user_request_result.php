@@ -3,6 +3,8 @@
 <?php UserManager::confirm_logged_in();?>
 <?php  
 	//resource allocaiton
+	// message format userID/emulaterFlag/host_id/mobile_id/toDo   (1/0/1/1/on)
+
 
 	$reqNumber = $_SESSION["req_number"];
 	$message_array = array();
@@ -114,10 +116,11 @@
 			                <thead>
 			                  <tr>
 			                    <th>Id</th>
-			                    <th>HostIp Address</th>
+			                    <th>Host Ip </th>
+			                    <th>Emulator IP</th>	
 			                    <th>Emulator Name</th>
 			                    <th>Status</th>
-			                    <th>Emulator IP</th>	
+			                    
 			                  </tr>
 			                </thead>
 			                <tbody>

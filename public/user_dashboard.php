@@ -23,7 +23,6 @@
 	         			<h2orange>Resources</h2orange>
 	         		</div>
 	         		<p style="font-size:16px; margin-left:1em;"> You are using the following Nova MIaaS resources: </p>
-	         		<br>
 	         		<table class="table table-striped" style="margin-left:1em;">
 			                <thead>
 			                  <tr>
@@ -40,7 +39,20 @@
 			                <tbody>
 							<?php 
 								$arrlength=count($instance_list);
-								for ($i=0; $i < $arrlength; $i++) { 									
+								for ($i=0; $i < $arrlength; $i++) { 
+									if($instance_list[$i][7]="Stop"){
+										$href="user_stop_result.php";
+									}
+									else if($instance_list[7]="Start"){
+										$href="user_start_result.php";
+									}
+									$href .= "?id=";
+									$href .= urlencode($instance_list[$i][9]);
+
+									$href_ter  ="user_terminate_result.php?id=";
+									$href_ter .=urlencode($instance_list[$i][9]);
+
+
 							?>
 							<tr>
 							<td><?php echo $instance_list[$i][0]; ?></td>
@@ -51,10 +63,13 @@
 							<td><?php echo $instance_list[$i][4]; ?></td>
 							<td><?php echo $instance_list[$i][5]; ?></td>
 							<td><?php echo $instance_list[$i][6]; ?></td>
-							<td><input class="btn btn-warning" style=" height: 4ex;" type="submit" 
-								name= <?php echo $instance_list[$i][7]; ?>  value=<?php echo $instance_list[$i][7]; ?> />
-							<td><input class="btn btn-warning" style=" height: 4ex;" type="submit" 
-								name=<?php echo $instance_list[$i][8]; ?> value=<?php echo $instance_list[$i][8]; ?> /> </td>
+							<td><p ><a style="height: 4ex;" 
+								href= <?php echo $href;?>  class="btn btn-warning">
+								<?php echo $instance_list[$i][7]; ?></a></p> </td>
+							<td><p ><a style="height: 4ex;" 
+								href=<?php echo $href_ter;?>  
+								 class="btn btn-warning" onclick="return confirm('Are you sure?');">
+									<?php echo $instance_list[$i][8]; ?></a></p> </td>							
 							</tr>  
 
 							<?php 
