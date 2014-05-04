@@ -38,21 +38,18 @@
 			                </thead>
 			                <tbody>
 							<?php 
-								$arrlength=count($instance_list);
+								$arrlength = count($instance_list);
 								for ($i=0; $i < $arrlength; $i++) { 
-									if($instance_list[$i][7]="Stop"){
+									if($instance_list[$i][7]=="Stop"){
 										$href="user_stop_result.php";
 									}
-									else if($instance_list[7]="Start"){
+									else if($instance_list[$i][7]=="Start"){
 										$href="user_start_result.php";
 									}
 									$href .= "?id=";
 									$href .= urlencode($instance_list[$i][9]);
-
 									$href_ter  ="user_terminate_result.php?id=";
 									$href_ter .=urlencode($instance_list[$i][9]);
-
-
 							?>
 							<tr>
 							<td><?php echo $instance_list[$i][0]; ?></td>
@@ -80,6 +77,7 @@
 
 
 					<div class="row" style="border-bottom: 1px solid #E4E4E4; margin-left:1em;">
+						<br>
 	         			<h2orange>Create Instance</h2orange>
 	         		</div>
 	         		<p style="font-size:16px; margin-left:1em;"> To start using Nova MIaaS you will want to launch a mobile emulator, known as an Nova MIaaS instance. </p>

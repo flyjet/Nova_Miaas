@@ -39,7 +39,7 @@
 					<div class="row" style="border-bottom: 1px solid #E4E4E4; margin-left:1em;">
 	         			<h2orange>Reserve Devices</h2orange>
 	         		</div>
-	         		<p style="font-size:16px; margin-left:1em;"> To start using Nova MIaaS mobile devices, you need reserve first.</p>
+	         		<p style="font-size:16px; margin-left:1em;"> To start using Nova MIaaS mobile devices, you can reserve to use.</p>
 	         		<div class="row" style=" margin-left:1em;">	
 		         		<h5 style="font-size:18px; margin-left:1em;"> Available mobile devices</h5>
 		         		<div class="col-xs-4">

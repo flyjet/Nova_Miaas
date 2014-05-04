@@ -644,38 +644,48 @@ class BillManager{
 
 	//get user result list (type, Host Ip, Instance Ip, Brand Name, API, Status)
 
-		public static function found_mobile_Result_by_instanceId($hostId,$instanceId){
+		public static function found_mobile_Result_by_instanceId($hostId,$instanceId,$status){
 			global $connection;	
 			$hostIp = ResourceAllocation::found_hostIp_by_hostId($hostId);
 
 			$query  = "SELECT * ";
 			$query .= "FROM mobiles ";
 			$query .= "WHERE id ='{$instanceId}' ";
-			$query .= "AND host_id = '{$hostId}' ";
+			$query .= "AND host_id = '{$hostId}' ; ";
 			$result_set = mysqli_query($connection, $query);
 			BasicHelper::confirm_query($result_set);
 			$row = mysqli_fetch_assoc($result_set);
-
 			$list =array();
-			if($row["emulator_flag"]=0){
+			if($row["emulator_flag"]== 0){
 				$list[0]= "emulator";
-			} elseif($row["emulator_flag"]=1) {
+			} else {
 				$list[0]= "device";
 			}
+			$list[1] = $row["brand"];
+			$list[1] .= "/";
+			$list[1] .= $row["api"];
 			$list[2] = $hostIp;
 			$list[3] = $row["ip"];
-			$list[4] = $row["brand"];
-			$list[4] .= "/";
-			$list[4] .= $row["api"];
-			if($row["status"]=0){
-				$list[5] = "Terminate";
-			} elseif($row["status"]=1){
-				$list[5] = "Running";
-			} else{
-				$list[5] = "Stop";
-			}
+			
+/*			if($row["status"]==0 && $status=="ter"){
+				$list[4] = "Terminate";
+			} elseif($row["status"]==1 && $status=="on"){
+				$list[4] = "Running";
+			} elseif($row["status"]==2 && $status=="off"){
+				$list[4] = "Stop";
+			}   */
 
-			return $list;
+			//for test use
+
+			if($status=="ter"){
+				$list[4] = "Terminate";
+			} elseif($status=="on"){
+				$list[4] = "Running";
+			} elseif($status=="off"){
+				$list[4] = "Stop";
+			} 
+
+			return $list;  
 		}
 
 
@@ -692,7 +702,7 @@ class BillManager{
 			while ($row = mysqli_fetch_assoc($result)) {
 				
 				$mobileId=$row["mobile_id"];
-				$query  = "SELECT * ";
+				$query  = "SELECT emulator_flag, brand, api, host_ip,ip, mobiles.status ";
 				$query .= "FROM mobiles, hosts ";
 				$query .= "WHERE mobiles.id = '{$mobileId}' ";
 				$query .= "AND host_id = hosts.id ";
@@ -700,13 +710,10 @@ class BillManager{
 				$query .= "ORDER BY emulator_flag ; ";								
 				$result_set = mysqli_query($connection, $query);
 
-				BasicHelper::confirm_query($result_set);
-
-		
+				BasicHelper::confirm_query($result_set);	
 				$mobiles_row = mysqli_fetch_array($result_set);
 
 				//print_r($mobiles_row);
-
 					$list =array();
 					$list[0] = $i;
 					if($mobiles_row["emulator_flag"]){
@@ -718,11 +725,11 @@ class BillManager{
 					$list[3] = $mobiles_row["api"];
 					$list[4] = $mobiles_row["host_ip"];
 					$list[5] = $mobiles_row["ip"];
-					if($row["host_ip"]=1){
+					if($mobiles_row["status"]==1){
 						$list[6] ="Running " ;
 						$list[7] ="Stop" ;
 						$list[8] ="Terminate" ;
-					} else if($row["host_ip"]=2){
+					} else if($mobiles_row["status"]==2){
 						$list[6] ="Stop ";
 						$list[7] ="Start" ;
 						$list[8] ="Terminate" ;
@@ -757,7 +764,7 @@ class BillManager{
 		}
 
 
-	//from instanceId to message_array for stop-off, start- on, terminate - ter
+	//from instanceId to message_array for stop-off, start- on, terminate - ter to send message
 		public static function get_message_string($instanceId,$userId,$action){
 
 			global $connection;	

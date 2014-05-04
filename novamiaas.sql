@@ -197,6 +197,10 @@ UPDATE mobiles set status=1 where id=2;
 UPDATE mobiles set status=1 where id=3;
 UPDATE mobiles set status=1 where id=5;
 
+UPDATE mobiles set status=2 where id=3;
+
+
+
 
 
 
