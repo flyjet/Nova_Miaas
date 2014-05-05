@@ -48,28 +48,31 @@
 
 		public static function receive_message_from_SQS(){
 			$message ="";
+			$Messages ="";
 			$sqs = SQS_message::init_SQS();
 			$receive_result = $sqs->receiveMessage(array(
 	      		  'QueueUrl' => SQS_message::$receiveMessage_queueUrl ,
 	   		));
-			if($receive_result){
-				foreach ($receive_result->getPath('Messages') as $msg) {
-	   			$receiveMessage_handle = $msg["ReceiptHandle"];
-	   			$msg_body = json_decode($msg['Body'], true);
-	   			$receive_Message = $msg_body['Message'];
-        	}
 
-        	//echo $message= $msg['Body'];     //if message send driectly from Java
-        	
-        	$message = $receive_Message ;
-        	$message .= "*";
-        	$message .= $receiveMessage_handle;
-        	$message .="*";
-        	$message .=SQS_message::$receiveMessage_queueUrl;
-			}
+			$Messages = $receive_result->getPath('Messages');
+			if(isset($Messages)){
+				foreach ($Messages as $msg) {
 
-         	return $message;
+		   			$receiveMessage_handle = $msg["ReceiptHandle"];
+		   			$receive_Message =$msg["Body"];
+		   			//$msg_body = json_decode($msg['Body'], true);
+		   			//$receive_Message = $msg_body['Message'];
 
+	        		//echo $message= $msg['Body'];     //if message send driectly from Java
+	        	
+		        	$message .= $receive_Message ;
+		        	$message .= "*";
+		        	$message .= $receiveMessage_handle;
+		        	$message .="*";
+		        	$message .=SQS_message::$receiveMessage_queueUrl;
+					}
+				}
+         		return $message;
          } 
 
          //delete message from Queue

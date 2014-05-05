@@ -28,6 +28,7 @@
 	<?php echo $_SESSION["user_id"];?>
 	<?php echo $_SESSION["email"];?>
 -->
+<?php include("loading.php"); ?>
 <?php include("../includes/layouts/header.php"); ?>
 
 			<!-- row 1 start in header -->
@@ -81,7 +82,7 @@
 
 	         		<p style=" margin-left:2em;margin-top:2em">
 	         			<!--<a href="user_request_result.php" name= "submit" class="btn btn-warning" >Submit Selection</a> -->
-	         			 <input class="btn btn-warning" type="submit" name="submit" value="Submit Selection" /> 
+	         			 <input class="btn btn-warning" id="loading" type="submit" name="submit" value="Submit Selection" /> 
 		      
 	         		</p>
 	         			         		

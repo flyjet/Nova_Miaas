@@ -23,6 +23,12 @@ h3green{
 	font-size:18px;
 	margin:.67em 0;
 	color: #3EA055;}
+
+h3red{
+	font-size:18px;
+	margin:.67em 0;
+	color: #ff3232;}
+	
 footer {
 	padding: 2em 0;
 	margin: 3em 0;
@@ -95,3 +101,5 @@ footer {
 .active .glyphicon {
 	color: #cdae51;
 }
+
+

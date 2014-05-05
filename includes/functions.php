@@ -657,9 +657,9 @@ class BillManager{
 			$row = mysqli_fetch_assoc($result_set);
 			$list =array();
 			if($row["emulator_flag"]== 0){
-				$list[0]= "emulator";
+				$list[0]= "Emulator";
 			} else {
-				$list[0]= "device";
+				$list[0]= "Device";
 			}
 			$list[1] = $row["brand"];
 			$list[1] .= "/";

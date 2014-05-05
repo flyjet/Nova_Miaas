@@ -295,6 +295,7 @@
 			applyMedia();
 		},
 
+
 		//recurse through request queue, get css text
 		makeRequests = function(){
 			if( requestQueue.length ){

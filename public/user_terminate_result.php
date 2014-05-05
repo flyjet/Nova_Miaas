@@ -5,61 +5,9 @@
   $emulatorId =$_GET["id"];  
   $userId = $_SESSION["user_id"];
   $action = "ter";
-  $send =false;
-  // get the message which need to send to queue
-  $message = ResourceAllocation::get_message_string($emulatorId, $userId, $action);
-  if(empty($message)){
-  	//empty message
-  	$_SESSION["message"] = "Your request to terminate the instance is failed, please try again";
-  } else{
-  	//send message to queue
-  	$send =SQS_message::send_message_to_SQS($message);
-		if($send){
-			//if send success, and wait for message 
-			//???????????????????????
-		}
-		else{
-			$_SESSION["message"] = "Your request to terminate the instance is failed, please try again";
-		}
-  }
+  $err_message = " Your request to terminate the instance is failed, please try again";
 ?>
-<?php
-	//receive message from queue
-		//???????????????????????   need while loop to check if the Queue has message
-	
-	$receive =false;
-	$list =array();
-	$showList ="";
-	$rec_msg_array = array();
-	$rec_msg_body_array =array();
-	$messagebody= SQS_message::receive_message_from_SQS();   //return message*message_handle*queue_Url
-	if(empty($messagebody)){
-  			//empty message 	
-	}
-	else{
-		$receive =true;		
-		$rec_msg_body_array = explode("*", $messagebody);   //($hostId, $instanceId, $status, $pass/fail)
-		
-		$message_handle = $rec_msg_body_array[1];
-		$msg_queueUrl = $rec_msg_body_array[2];
-
-		//$rec_message = $rec_msg_body_array[0];
-		$rec_message = "1/2/ter/pass";   	//?????
-
-		$rec_msg_array = explode("/", $rec_message);
-		if ($rec_msg_array[2] = "off"){
-			if($rec_msg_array[3] = "pass"){
-				$showlist = ResourceAllocation::found_mobile_Result_by_instanceId($rec_msg_array[0],$rec_msg_array[1],"ter");
-				// showlist will be show in html page (device, hostIp,deviceIp,brand/api, stauts,)
-			}
-			else{
-				$_SESSION["message"] = "Your request to terminate the instance is failed, please try again";			
-			}
-			//then delete the message
-			SQS_message::delete_message_from_SQS($msg_queueUrl, $message_handle);
-		}		
-	}
-?>
+<?php include("send_rec_message.php"); ?>  
 <?php include("../includes/layouts/header.php"); ?>
 
 			<!-- row 1 start in header -->
@@ -74,6 +22,7 @@
 	         		<div class="row" style="border-bottom: 1px solid #E4E4E4; margin-left:1em;">
 	         			<h2orange>Result</h2orange>
 	         		</div>
+	         		<?php if(isset($showlist)){ ?>
 	         		<p class="bg-info" style="height:3em; margin-left:1em;">
 	         			<span class="glyphicon glyphicon-ok" style="color: #3EA055;"></span>&nbsp
 	         			<h3green>Your instance is terminated.</h3green> <br></p>
@@ -99,9 +48,16 @@
 								<td><?php echo $showlist[4]; ?></td>				
 							</tr>  
 			            </tbody>
+			            <?php
+			                } else{
+			              	?>
+			              	<p class="bg-danger" style="height:3em; margin-left:1em;">
+	         				<span class="glyphicon glyphicon-remove" style="color: #ff3232;"></span>&nbsp
+	         				<h3red><?php echo $err_message; ?></h3red> <br></p>
+			             <?php 
+			                }
+			             ?>
 	              	</table>
-
-
 
 					<div class="row" style="border-bottom: 1px solid #E4E4E4; margin-left:1em;">
 	         			<br>

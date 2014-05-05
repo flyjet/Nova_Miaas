@@ -8,6 +8,8 @@
 	}
 
 ?>
+<?php include("loading.php"); ?>
+
 <?php include("../includes/layouts/header.php"); ?>
 
 			<!-- row 1 start in header -->
@@ -61,14 +63,13 @@
 							<td><?php echo $instance_list[$i][5]; ?></td>
 							<td><?php echo $instance_list[$i][6]; ?></td>
 							<td><p ><a style="height: 4ex;" 
-								href= <?php echo $href;?>  class="btn btn-warning">
+								href= <?php echo $href;?>  id="loading" class="btn btn-warning">
 								<?php echo $instance_list[$i][7]; ?></a></p> </td>
 							<td><p ><a style="height: 4ex;" 
-								href=<?php echo $href_ter;?>  
+								href=<?php echo $href_ter;?> 
 								 class="btn btn-warning" onclick="return confirm('Are you sure?');">
 									<?php echo $instance_list[$i][8]; ?></a></p> </td>							
 							</tr>  
-
 							<?php 
 								}
 							?>
@@ -84,8 +85,6 @@
 	         		<p style="margin-left:1em;margin-top:2em"><a href="user_request.php" class="btn btn-warning">Launch Instance</a></p>
 	         	</article>
 	    	</div><!-- end of class row 2-->
-
-
 			<!-- row 3 -->
 
 			<!-- row 4 in footer -->
