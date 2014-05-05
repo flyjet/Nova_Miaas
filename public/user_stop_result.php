@@ -56,7 +56,7 @@
 			              	?>
 			              	<p class="bg-danger" style="height:3em; margin-left:1em;">
 	         				<span class="glyphicon glyphicon-remove" style="color: #ff3232;"></span>&nbsp
-	         				<h3red><?php echo $err_message; ?></h3red> <br></p>
+	         				<h3red><?php echo $_SESSION["message"]; ?></h3red> <br></p>
 			              	<?php 
 			                }
 			                ?>
