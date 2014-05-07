@@ -3,9 +3,16 @@
 <?php
   $user = UserManager::find_user_by_email($_SESSION["email"]);
   $userRecentBills = BillManager::find_bills_by_userid($_SESSION["user_id"],5);
-  $userRecentBillGraphData = BillManager::buildBillsArray($userRecentBills);
+  
+  $userRecentBillGraphData =array();
+  if($userRecentBills){
+	  $userRecentBillGraphData = BillManager::buildBillsArray($userRecentBills);
+	}
   $userBills = BillManager::find_bills_by_userid($_SESSION["user_id"]);
-  $userBillTableData = BillManager::buildBillsArray($userBills);
+  $userBillTableData=array();
+  if($userBills) {
+	  $userBillTableData = BillManager::buildBillsArray($userBills);
+  }
 
 ?>
 <?php include("../includes/layouts/header.php"); ?>
@@ -29,7 +36,8 @@
 					<div id="BillHistoryTable"></div>
 	         		<br>
 	         	</article>
-	         	
+				
+	         <?php if($userRecentBillGraphData) { ?>	
 		    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 		    <script type="text/javascript">
 		        google.load("visualization", "1", {packages:["corechart"]});
@@ -54,6 +62,8 @@
 		            billhistorychart.draw(billhistorydata, options);
 				}
 			</script>
+			<?php } ?>
+			<?php if($userBillTableData ) { ?>
 		    <script type="text/javascript">
 		        google.load("visualization", "1", {packages:["table"]});
 		        google.setOnLoadCallback(drawTable);
@@ -76,6 +86,7 @@
 		            billTable.draw(billData, options);
 				}
 			</script>
+			<?php } ?>
 			
 			</div><!-- end of class row 2-->
 
