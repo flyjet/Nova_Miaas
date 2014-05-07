@@ -320,7 +320,8 @@ class BillManager{
 		$query .= "ORDER BY um.start_time DESC ";
 		$result_set = mysqli_query($connection, $query);
 		BasicHelper::confirm_query($result_set);
-	    while ($row = mysqli_fetch_array($result_set)) {
+	    $result_array=array();
+		while ($row = mysqli_fetch_array($result_set)) {
 	        $result_array[] = $row;
 	    }
 	    return $result_array;

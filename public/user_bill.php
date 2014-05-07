@@ -33,7 +33,7 @@ $userCurrentMonthBillTableData=BillManager::findAndBuildBillArray($_SESSION["use
 						
 				    </div> 			         								
 	         	</article>
-				
+				<?php if($userCurrentMonthBillTableData) { ?>
 			    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 				<script type="text/javascript">
 			        google.load("visualization", "1", {packages:["table"]});
@@ -80,6 +80,7 @@ $userCurrentMonthBillTableData=BillManager::findAndBuildBillArray($_SESSION["use
 			            currentMonthBillChart.draw(currentMonthBillData, options);
 					}
 				</script>
+				<?php }?>
 				
 	    	</div><!-- end of class row 2-->
 
