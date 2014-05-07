@@ -699,7 +699,8 @@ class BillManager{
 			global $connection;	
 			$result = ResourceAllocation::found_usedMobilesId_by_userId($user_id);
 			$i=1;
-
+			$result_array =array();
+			
 			while ($row = mysqli_fetch_assoc($result)) {
 				
 				$mobileId=$row["mobile_id"];
