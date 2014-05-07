@@ -32,7 +32,7 @@ $currentMonthAllUsersSumData=BillManager::findAndBuildUsersSumArray($allUsers,$c
 	         	<article class="col-lg-10">
 
 	         		<div class="row" style="border-bottom: 1px solid #E4E4E4; margin-left:1em;">
-	         			<h2orange>Management</h2orange>
+	         			<h2orange>User Management</h2orange>
 	         		</div>
 	         		<p style="font-size:16px; margin-left:1em;"> Here is the users </p>
 					<div id="CurrentMonthAllUsersSumTable"></div>

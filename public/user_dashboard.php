@@ -38,6 +38,9 @@
 			                    <th></th>	
 			                  </tr>
 			                </thead>
+
+			            <?php if(isset($instance_list)){ ?>
+			                
 			                <tbody>
 							<?php 
 								$arrlength = count($instance_list);
@@ -74,6 +77,8 @@
 								}
 							?>
 			                </tbody>
+
+			            <?php }?>
 	              		</table>
 
 
