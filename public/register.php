@@ -53,7 +53,7 @@ if (isset($_POST['submit'])) {
 			<!-- row 2 -->
 			<div class="row">
 			<form action="register.php" method="post">
-				<div class="col-lg-offset-1 col-lg-6" >  
+				<div class="col-lg-offset-1 col-lg-5" >  
 		        	<h1orange> Create a New Account </h1orange>
 				    <?php echo Session::message(); ?>
 				    <?php echo Session::form_errors(Session::$errors); ?>					
@@ -94,8 +94,8 @@ if (isset($_POST['submit'])) {
 	         	</div>
 			</form>
 
-	         	<div class=" col-lg-5">
-	         		<img src="image/cloud.png" alt="" >
+	         	<div class=" col-lg-2">
+	         		<img src="image/register2.png" style="width:100%, height:360px;" alt="" >
 	         	</div>
        
 	    	</div><!-- end of class row 2-->

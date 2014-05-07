@@ -49,7 +49,7 @@ if (isset($_POST['submit'])) {
 			<!-- row 2 -->
 			<div class="row">
 			<form action="register_c.php" method="post">
-				<div class="col-lg-offset-1 col-lg-6" >
+				<div class="col-lg-offset-1 col-lg-5" >
 				    <?php echo Session::message(); ?>
 				    <?php echo Session::form_errors(Session::$errors); ?>  
 					
@@ -101,8 +101,8 @@ if (isset($_POST['submit'])) {
 
 	         	</div>
 
-	         	<div class=" col-lg-5">
-	         		<img src="image/cloud.png" alt="" >
+	         	<div class=" col-lg-4">
+	         		<img src="image/register.png" alt="" >
 	         	</div>
             </form> 
 	    	</div><!-- end of class row 2-->

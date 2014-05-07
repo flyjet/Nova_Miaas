@@ -77,12 +77,12 @@
 	         				 		if($all_pass){ ?>
 		         				 		<p class="bg-info" style="height:3em; margin-left:1em;">
 		         					    <span class="glyphicon glyphicon-ok" style="color: #3EA055;"></span>&nbsp
-		         					    <h3green>Your instance is now launching</h3green> <br></p>
+		         					    <h3green>Your instance is now running.</h3green> <br></p>
 	         				 		<?php
 	         				 		} elseif(!$all_pass && $all_fail){ ?>
 		         				 		<p class="bg-warning" style="height:3em; margin-left:1em;">
 		         					    <span class="glyphicon glyphicon-remove" style="color: #ff3232;"></span>&nbsp
-		         					    <h3red>The following instance is now launching, but other is fail</h3red> <br></p>
+		         					    <h3red>The following instance is now running, but other is fail</h3red> <br></p>
 	         				 		<?php				
 	         				 		} //end of elseif
 	         				 		?> 	

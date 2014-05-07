@@ -25,6 +25,7 @@
 					$msg_queueUrl = $rec_msg_body_array[2];
 					$rec_msg_array = explode("/", $rec_message);  //($hostId, $instanceId, $status, $pass/fail)
 					if($sd_msg_array[2] == $rec_msg_array[0] &&  $sd_msg_array[3]==$rec_msg_array[1] && $sd_msg_array[4] == $rec_msg_array[2]){
+							$receive =true;
 							if($rec_msg_array[3] == "pass"){
 								$showlist = ResourceAllocation::found_mobile_Result_by_instanceId($rec_msg_array[0],$rec_msg_array[1], $action);
 								// showlist will be show in html page (device, hostIp,deviceIp,brand/api, stauts,)
@@ -38,7 +39,9 @@
 					}
 				} else{
 					//empty message, loop again  	
-					if ((time() - $start_time) > 120){
+					if ((time() - $start_time) > 30){
+						$_SESSION["message"] = $err_message;
+						$receive =false;
       				break; // timeout, function took longer than 120 seconds
     				}
 				}//end of else
