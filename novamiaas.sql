@@ -204,12 +204,12 @@ UPDATE mobiles set status=2 where id=3;
 
 
 
---------some query only for test------- 
+-------- some query only for test------- 
 
 select id from hosts WHERE status=1 ORDER BY used_emulator_no DESC;
 select id from hosts WHERE status=1 ORDER BY used_device_no DESC;
 
-------------------user data for May-------
+------------------ user data for May-------
 insert into user_mobile (user_id,mobile_id, start_time, end_time) values 
 (1,1,'2014-05-01 00:00:01', '2014-05-01 10:00:01'),
 (1,1,'2014-05-02 12:00:01', '2014-05-03 22:00:01'),
