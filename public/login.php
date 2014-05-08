@@ -47,7 +47,7 @@ if (isset($_POST['submit'])) {
 
 			<!-- row 2 -->
 			<div class="row">
-				<div class="col-lg-offset-1 col-lg-6" >  
+				<div class="col-lg-offset-1 col-lg-5" >  
 				<form action="login.php" method="post">
 		        	<h1orange> Sign In </h1orange>
 		        	<h4>Please use your existing account to sign in </h4> <br>
@@ -73,8 +73,8 @@ if (isset($_POST['submit'])) {
 				</form>	
 	         	</div>
 
-	         	<div class=" col-lg-5">
-	         		<img src="image/cloud.png" alt="" >
+	         	<div class=" col-lg-4">
+	         		<img src="image/login.png" alt="" >
 	         	</div>
        
 	    	</div><!-- end of class row 2-->

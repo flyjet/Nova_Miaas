@@ -12,7 +12,7 @@
 
 			<!-- row 2 -->
 		    <div class="jumbotron">
-		    	<img src="image/cloud.png" alt="" class="pull-right  img-responsive img-circle">
+		    	<img src="image/cloud1.png" alt="" class="col-lg-5 pull-right  img-responsive img-circle">
 		        <h2> What is Nova MIaaS ?</h2>
 		        <p>Nova MIaaS, Nova Mobile Cloud Infrastructure-as-a-Service, provides mobiles resources to users on demand in cloud infrastructure level. </br>
 		        
