@@ -323,6 +323,17 @@ class BillManager{
 	    return $result_array;
 				
 	}
+	
+	public static function insert_payment ($userid, $billid, $payinfoid){
+	    global $connection;
+		$query  = "insert into pay_history(user_id,bill_id,payinfo_id)values ( ";
+	    $query .= " {$userid}, ";
+		$query .= " {$billid}, ";
+		$query .= " {$payinfoid}) ";
+		$result = mysqli_query($connection, $query);
+		return $result;	
+		
+	}
 
 	
 	public static function buildPaymentsArray($data_array){   
