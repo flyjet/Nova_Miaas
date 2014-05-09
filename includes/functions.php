@@ -118,12 +118,11 @@ class UserManager{
 	
 	}
 	
-	public static function update_user($userid=0, $firstname="", $lastname="", $email="",$password=""){
+	public static function update_user($userid=0, $firstname="", $lastname="",$password=""){
 		global $connection;
 		$query  = "UPDATE users SET ";
 	    $query .= "first_name = '{$firstname}', ";
 		$query .= "last_name = '{$lastname}', ";
-	    $query .= "email = '{$email}', ";
 	    $query .= "password = '{$password}' ";
 	    $query .= "WHERE id = {$userid} ";
 	    $query .= "LIMIT 1";

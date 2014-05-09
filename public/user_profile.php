@@ -9,17 +9,16 @@
 if (isset($_POST['contactsubmit'])) {
   // Process the form 
   // validations
-  $required_fields = array("fname","lname","email","password");
+  $required_fields = array("fname","lname","password");
   ValidationHelper::validate_presences($required_fields);  
   if (empty(Session::$errors)) {   
     // Perform Update
 	$userid=$_SESSION["user_id"];
     $firstname = BasicHelper::escape_value($_POST["fname"]);
 	$lastname = BasicHelper::escape_value($_POST["lname"]);
-	$email = BasicHelper::escape_value($_POST["email"]);
     $password = BasicHelper::escape_value($_POST["password"]);
     
-    $result = UserManager::update_user($userid, $firstname, $lastname, $email,$password);
+    $result = UserManager::update_user($userid, $firstname, $lastname,$password);
    
     if ($result) {
       // Success
@@ -50,8 +49,13 @@ else if (isset($_POST['paymentinfosubmit'])) {
 		$postal = BasicHelper::escape_value($_POST["postal"]);
 		$country = BasicHelper::escape_value($_POST["country"]);
 		$phone = BasicHelper::escape_value($_POST["phone"]);
-
-		$result2 = UserManager::update_paymentinfo(
+        
+		$exist=UserManager::find_paymentinfo_by_userid($userid);
+		if(!$exist){
+			$result2 = UserManager::insert_paymentinfo(
+					$userid, $cardnumber, $name, $expire,$street, $city, $state, $postal, $country,$phone);
+		}
+		else $result2 = UserManager::update_paymentinfo(
 		$userid, $cardnumber, $name, $expire,$street, $city, $state, $postal, $country,$phone);
 		if ($result2) {
 		// Success
@@ -103,11 +107,10 @@ else if (isset($_POST['paymentinfosubmit'])) {
 
 
 			        	<div class="form-group">
-			        		<label for="email">Email address </label> <br>    		
-			        		<input class="col-lg-6 " type="text" name="email" 
-							value="<?php echo htmlentities($user['email']); ?>">
+			        		<label for="email">Email address </label> <br>    			
+							<?php echo htmlentities($user['email']); ?>
 			        	</div>			
-			            <br>
+			            
 						
 			        	<div class="form-group">
 			        		<label for="password">Password </label> <br>    		

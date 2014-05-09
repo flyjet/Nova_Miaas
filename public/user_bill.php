@@ -3,8 +3,8 @@
 <?php
 
 $currentBillStart = date("Y-m-d H:i:s", mktime(0,0,0,date("m"),1,date("Y")) ); 
-
 $userCurrentMonthBillTableData=BillManager::findAndBuildBillArray($_SESSION["user_id"],$currentBillStart);
+
 $userUnpaidBill=BillManager::find_unpaid_bill_by_userid($_SESSION["user_id"]);
  		
 ?>
