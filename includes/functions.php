@@ -798,7 +798,7 @@ class BillManager{
 
 				if(mysqli_num_rows($result_set)>0){
 
-					echo " result is set";
+					//echo " result is set";
 					BasicHelper::confirm_query($result_set);	
 					$mobiles_row = mysqli_fetch_array($result_set);
 
