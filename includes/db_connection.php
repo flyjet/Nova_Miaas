@@ -1,5 +1,5 @@
 <?php
-	define("DB_SERVER", "127.0.0.1");
+	define("DB_SERVER", "54.200.72.126");
 	define("DB_USER", "group6");
 	define("DB_PASS", "sjsugroup6");
 	define("DB_NAME", "nova_miaas");

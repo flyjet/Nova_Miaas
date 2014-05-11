@@ -796,33 +796,37 @@ class BillManager{
 				$query .= "ORDER BY emulator_flag ; ";								
 				$result_set = mysqli_query($connection, $query);
 
-				BasicHelper::confirm_query($result_set);	
-				$mobiles_row = mysqli_fetch_array($result_set);
+				if(mysqli_num_rows($result_set)>0){
 
-				//print_r($mobiles_row);
-					$list =array();
-					$list[0] = $i;
-					if($mobiles_row["emulator_flag"]){
-						$list[1]= "Device ";
-					} else{
-						$list[1]= "Emulator";
-					}
-					$list[2] = $mobiles_row["brand"];
-					$list[3] = $mobiles_row["api"];
-					$list[4] = $mobiles_row["host_ip"];
-					$list[5] = $mobiles_row["ip"];
-					if($mobiles_row["status"]==1){
-						$list[6] ="Running " ;
-						$list[7] ="Stop" ;
-						$list[8] ="Terminate" ;
-					} else if($mobiles_row["status"]==2){
-						$list[6] ="Stop ";
-						$list[7] ="Start" ;
-						$list[8] ="Terminate" ;
-					}
-					$list[9] =$mobileId;
-					$i++;
-			        $result_array[] = $list;   
+					echo " result is set";
+					BasicHelper::confirm_query($result_set);	
+					$mobiles_row = mysqli_fetch_array($result_set);
+
+					//print_r($mobiles_row);
+						$list =array();
+						$list[0] = $i;
+						if($mobiles_row["emulator_flag"]){
+							$list[1]= "Device ";
+						} else{
+							$list[1]= "Emulator";
+						}
+						$list[2] = $mobiles_row["brand"];
+						$list[3] = $mobiles_row["api"];
+						$list[4] = $mobiles_row["host_ip"];
+						$list[5] = $mobiles_row["ip"];
+						if($mobiles_row["status"]==1){
+							$list[6] ="Running " ;
+							$list[7] ="Stop" ;
+							$list[8] ="Terminate" ;
+						} else if($mobiles_row["status"]==2){
+							$list[6] ="Stop ";
+							$list[7] ="Start" ;
+							$list[8] ="Terminate" ;
+						}
+						$list[9] =$mobileId;
+						$i++;
+				        $result_array[] = $list;  
+				 } 
 		    }//end of while loop
 		    	return $result_array;
 		}
@@ -905,10 +909,7 @@ class BillManager{
 
 		}
 
-
-
 	}//end of class Admin
-
 
 
 
