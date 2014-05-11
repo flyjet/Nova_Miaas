@@ -25,6 +25,7 @@ $currentMonthAllUsersSumData=BillManager::findAndBuildUsersSumArray($allUsers,$c
 		        	<h5> Administrator Dashboard</h5>
 			            <ul class="side-navbar nav nav-pills nav-stacked">
 			            	<li class="active" style="font-weight: bold;"><a href="admin_dashboard.php">Users</a></li>
+			            	<li style="font-weight: bold;"><a href="admin_instance.php">Instances</a></li>
 			            	<li style="font-weight: bold;"><a href="admin_host.php">Hosts</a></li>
 			            </ul> 
 	         	</aside>
@@ -34,7 +35,7 @@ $currentMonthAllUsersSumData=BillManager::findAndBuildUsersSumArray($allUsers,$c
 	         		<div class="row" style="border-bottom: 1px solid #E4E4E4; margin-left:1em;">
 	         			<h2orange>User Management</h2orange>
 	         		</div>
-	         		<p style="font-size:16px; margin-left:1em;"> Here is the users </p>
+	         		<p style="font-size:16px; margin-left:1em;"> Here is the users information.</p>
 					<div id="CurrentMonthAllUsersSumTable"></div>
 					
 	         		<br>
@@ -43,7 +44,7 @@ $currentMonthAllUsersSumData=BillManager::findAndBuildUsersSumArray($allUsers,$c
 	         	</article>
 				
 			    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-				<script type="text/javascript">
+				<script type="text/javascript" >
 			        google.load("visualization", "1", {packages:["table"]});
 			        google.setOnLoadCallback(drawTable);
 			        function drawTable() {

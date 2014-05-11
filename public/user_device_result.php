@@ -42,7 +42,7 @@
 		{
 			$enough_device =true;
 		}
-		print_r($message_array);
+		//print_r($message_array);
 
 	}//end of else
 ?>

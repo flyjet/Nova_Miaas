@@ -15,7 +15,7 @@
 	         		<div class="row" style="border-bottom: 1px solid #E4E4E4; margin-left:1em;">
 	         			<h2orange>Result</h2orange>
 	         		</div>
-	         		<p style="font-size:16px; margin-left:1em;"> Your Result </p>
+	         		<p style="font-size:16px; margin-left:1em;"> Your Reserve Result </p>
 
 	         		
 	         		<br>

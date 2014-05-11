@@ -880,6 +880,36 @@ class BillManager{
 	}//end of class
 
 
+	class Admin{
+		public static function found_all_mobiles(){
+
+			global $connection;	
+			$query  = "SELECT  mobiles.id, emulator_flag, brand, api, host_ip, ip, mobiles.status  ";
+			$query .= "FROM mobiles, hosts ";
+			$query .= "WHERE host_id = hosts.id  ";
+			$query .= "ORDER by mobiles.id; ";
+			$result_set = mysqli_query($connection, $query);
+			BasicHelper::confirm_query($result_set);				
+			return $result_set;
+		}
+
+
+		public static function found_all_hosts(){
+			global $connection;	
+			$query  = "SELECT  * ";
+			$query .= "FROM hosts ";
+			$query .= "ORDER by id; ";
+			$result_set = mysqli_query($connection, $query);
+			BasicHelper::confirm_query($result_set);				
+			return $result_set;
+
+		}
+
+
+
+	}//end of class Admin
+
+
 
 
 ?>

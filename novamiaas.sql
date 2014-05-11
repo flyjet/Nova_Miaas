@@ -199,15 +199,18 @@ UPDATE mobiles set status=1 where id=5;
 
 UPDATE mobiles set status=2 where id=3;
 
-
-
-
-
-
 -------- some query only for test------- 
 
 select id from hosts WHERE status=1 ORDER BY used_emulator_no DESC;
 select id from hosts WHERE status=1 ORDER BY used_device_no DESC;
+
+select distinct * from mobiles, hosts where host_id = hosts.id;
+
+select mobiles.id, emulator_flag, brand, api, host_ip, ip, mobiles.status 
+from mobiles, hosts 
+where host_id = hosts.id order by id;
+
+
 
 ------------------ user data for May-------
 insert into user_mobile (user_id,mobile_id, start_time, end_time) values 
