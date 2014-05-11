@@ -13,7 +13,17 @@
         }); 
     }); 
 </script> 
+<script> 
 
+   // unblock when ajax activity stops 
+    $(document).ajaxStop($.unblockUI); 
+    $(document).ready(function() { 
+        $('#loading2').click(function() { 
+            $.blockUI({ message: $('#waitMessage') }); 
+           // test(); 
+        }); 
+    }); 
+</script> 
 <div id="waitMessage" style="display:none; ">    
     <h3>Processing...</h3>
     <img id="myimg" src="image/loading4.gif"  id="loading-indicator" style="margin-left:1em; " />

@@ -599,6 +599,26 @@ class BillManager{
 			return $result_set;
 		}
 
+
+	//get free device by brand name, host_id, and limit
+		public static function found_freeDevice_by_Brand($emulator, $host_id, $limit){
+			$emulatorArray = explode(",", $emulator); //splitting string 
+			$emulator_brand = $emulatorArray[0];
+			global $connection;	
+			$query  = "SELECT * ";
+			$query .= "FROM mobiles ";
+			$query .= "WHERE emulator_flag = 1 ";
+			$query .= "AND status= 0 ";
+			$query .= "AND host_id = '{$host_id}' ";
+			$query .= "AND brand = '{$emulator_brand}' ";
+			$query .= "LIMIT {$limit}; ";
+			$result_set = mysqli_query($connection, $query);
+			 //$row_n= mysqli_num_rows($result_set); 
+			 //echo $row_n;
+			BasicHelper::confirm_query($result_set);		
+			return $result_set;
+		}	
+
 	//get host_ip by host id
 		public static function found_hostIp_by_hostId($host_id){
 			global $connection;	
@@ -749,6 +769,7 @@ class BillManager{
 	//from emulator_set to message_array for new request to start
 		public static function get_message_array_on($emulator_set,$userId,$emuFlag,$hostId){
 			$i =0;
+			$message_array =array();
 			while($rowEmulator = mysqli_fetch_assoc($emulator_set)){
 		  			$emulator_id = $rowEmulator["id"];
 		  			$message_array[$i]  = $userId;

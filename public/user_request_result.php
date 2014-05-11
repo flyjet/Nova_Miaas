@@ -6,6 +6,7 @@
 	// message format userID/emulaterFlag/host_id/mobile_id/toDo   (1/0/1/1/on)
 
 	$reqNumber = $_SESSION["req_number"];
+	//echo $_SESSION["req_Instance"];
 	$message_array = array();
 	$begin_array=array();
 	$err_message = " Your request to launch the instance is failed, please try again";
