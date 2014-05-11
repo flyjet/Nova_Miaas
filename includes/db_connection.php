@@ -1,8 +1,5 @@
 <?php
-<<<<<<< HEAD
 	//define("DB_SERVER", "127.0.0.1");
-=======
->>>>>>> 63e494ae50aeef5c3b49dbb930de4251a2e12373
 	define("DB_SERVER", "54.200.72.126");
 	define("DB_USER", "group6");
 	define("DB_PASS", "sjsugroup6");
