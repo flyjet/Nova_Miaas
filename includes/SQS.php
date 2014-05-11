@@ -8,14 +8,14 @@
 
 		public static $receive_Message = "";
 		public static $receiveMessage_handle = "";
-		public static $receiveMessage_queueUrl ="https://sqs.us-east-1.amazonaws.com/024141142612/receivedfrom_Host";
+		public static $receiveMessage_queueUrl ="https://sqs.us-west-1.amazonaws.com/024141142612/receivedfrom_Host";
 
 		public static function init_SNS(){
 		   
 		    $sns = SNSClient::factory(array(
 	        'key'    => 'AKIAJYYAHUDDRUVSGCUQ',
 	        'secret' => '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',
-	        'region' => 'us-east-1',
+	        'region' => 'us-west-1',
 	    	));  
 	    	return $sns;
 		}
@@ -25,14 +25,14 @@
 		    $sqs  = SQSClient::factory(array(
 	        'key'    => 'AKIAJYYAHUDDRUVSGCUQ',
 	        'secret' => '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',
-	        'region' => 'us-east-1',
+	        'region' => 'us-west-1',
 	    	));  
 	    	return $sqs;
 		}
 
 		public static function send_message_to_SQS($message){
 			$sns = SQS_message::init_SNS();			
-		    $topic_arn = "arn:aws:sns:us-east-1:024141142612:nova";
+		    $topic_arn = "arn:aws:sns:us-west-1:024141142612:Nova";
 		    //message publish to the topic arn		   
 		    $publish_result = $sns->publish(array(
 		      	'TopicArn' => $topic_arn,
