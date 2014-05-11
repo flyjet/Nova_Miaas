@@ -67,7 +67,7 @@ CREATE TABLE user_mobile (
 id int NOT NULL AUTO_INCREMENT,
 user_id int NOT NULL,
 mobile_id int NOT NULL,
-start_time timestamp NOT NULL,
+start_time timestamp default '0000-00-00 00:00:00',
 end_time timestamp, -- should not default not null
 FOREIGN KEY (user_id) REFERENCES users(id)
  ON DELETE CASCADE ON UPDATE CASCADE,
