@@ -118,12 +118,11 @@ class UserManager{
 	
 	}
 	
-	public static function update_user($userid=0, $firstname="", $lastname="", $email="",$password=""){
+	public static function update_user($userid=0, $firstname="", $lastname="",$password=""){
 		global $connection;
 		$query  = "UPDATE users SET ";
 	    $query .= "first_name = '{$firstname}', ";
 		$query .= "last_name = '{$lastname}', ";
-	    $query .= "email = '{$email}', ";
 	    $query .= "password = '{$password}' ";
 	    $query .= "WHERE id = {$userid} ";
 	    $query .= "LIMIT 1";
@@ -217,6 +216,22 @@ class BillManager{
 				
 	}
 	
+	public static function find_unpaid_bill_by_userid($user_id){
+		global $connection;		
+		$query  = "SELECT * ";
+		$query .= "FROM bills ";
+		$query .= "WHERE user_id = {$user_id} ";
+		$query .= "AND paid_flag = 0 ";
+		$result_set = mysqli_query($connection, $query);
+		BasicHelper::confirm_query($result_set);
+		$result_array = array();
+	    while ($row = mysqli_fetch_array($result_set)) {
+	        $result_array[] = $row;
+	    }
+
+	    return $result_array;
+	}
+	
 	public static function insert_bill ($userid, $start, $end, $due, $amount){
 	    global $connection;
 		$query  = "insert into bills (user_id, bill_start, bill_end, bill_due, amount) values ( ";
@@ -230,17 +245,55 @@ class BillManager{
 		
 	}
 	
+	public static function update_bill_as_paid($userid,$billid){
+		global $connection;
+		$query  = "UPDATE bills SET ";
+		$query .= "paid_flag = 1 ";
+	    $query .= "where user_id = {$userid} ";
+		$query .= "and id = {$billid} ";
+		$result = mysqli_query($connection, $query);
+		return $result;	
+	  
+		
+	}
 	
-	
+
 	public static function buildBillsArray($data_array){ 
 		//  $data_array should be array of bills
         //build array for google chart data
-	    $output = "['Bill Start Time', 'Bill Amount'], ";
+	    $output = "['Bill Start Time', 'Bill Amount' ], ";
 		$i=0;
 	    // The data needs to be in a format ['string', decimal]
 	   while (!empty($data_array[$i]) ){
 	        $output .= "['" . $data_array[$i]['bill_start'] . "', ";
-	        $output .= $data_array[$i]['amount'] . " ";  
+	        $output .= $data_array[$i]['amount'] . " "; 
+	        // On the final count do not add a comma
+	        if (!empty($data_array[$i+1]) ){
+	            $output .= "],\n";
+	        } else {
+	            $output .= "]\n";
+	        }
+			$i++;
+	    };
+
+	    return $output;
+	}	
+	
+	public static function buildBillsWithDetailsArray($data_array){ 
+		//  $data_array should be array of bills
+        //build array for google chart data
+	    $output = "['Start Time', 'End time', 'Due time', 'Status','Amount'], ";
+		$i=0;
+	    // The data needs to be in a format ['string', decimal]
+	   while (!empty($data_array[$i]) ){
+	        $output .= "['" . $data_array[$i]['bill_start'] . "', ";
+			$output .= " '".$data_array[$i]['bill_end'] . "', "; 
+			$output .= " '".$data_array[$i]['bill_due'] . "', "; 
+			if($data_array[$i]['paid_flag']==1){
+				$output .= " 'Paid ', ";
+			}
+			else $output .= " 'Unpaid ', "; 
+			$output .= $data_array[$i]['amount'] . ", "; 
 	        // On the final count do not add a comma
 	        if (!empty($data_array[$i+1]) ){
 	            $output .= "],\n";
@@ -269,6 +322,17 @@ class BillManager{
 
 	    return $result_array;
 				
+	}
+	
+	public static function insert_payment ($userid, $billid, $payinfoid){
+	    global $connection;
+		$query  = "insert into pay_history(user_id,bill_id,payinfo_id)values ( ";
+	    $query .= " {$userid}, ";
+		$query .= " {$billid}, ";
+		$query .= " {$payinfoid}) ";
+		$result = mysqli_query($connection, $query);
+		return $result;	
+		
 	}
 
 	
@@ -394,11 +458,11 @@ class BillManager{
 	    $emulatorHourMobile = BillManager::calculate_total_hour_mobile($emulatorRecords);   
 	    $emulatorBill =BillManager::calculate_bill_by_type($emulatorHourMobile,"EMULATOR");
    
-	    $userBillTableData = "['Type', 'Used Time(hr*mobile)','Bill Amount($)'], ";
-	    $userBillTableData.=  "['Emulator', " . $emulatorHourMobile . ", ";
-	    $userBillTableData.=  $emulatorBill."],\n";
-	    $userBillTableData.=  "['Device', " . $deviceHourMobile . ", ";
-	    $userBillTableData.=  $deviceBill."],\n";  
+	    $userBillTableData = "['Type', 'Bill Amount($)', 'Used Time(hr*mobile)'], ";
+	    $userBillTableData.=  "['Emulator', " . $emulatorBill . ", ";
+	    $userBillTableData.=  $emulatorHourMobile."],\n";
+	    $userBillTableData.=  "['Device', " . $deviceBill . ", ";
+	    $userBillTableData.=  $deviceHourMobile."],\n";  
    
 	    return $userBillTableData;
     }

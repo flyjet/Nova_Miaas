@@ -11,7 +11,7 @@
   $userBills = BillManager::find_bills_by_userid($_SESSION["user_id"]);
   $userBillTableData=array();
   if($userBills) {
-	  $userBillTableData = BillManager::buildBillsArray($userBills);
+	  $userBillTableData = BillManager::buildBillsWithDetailsArray($userBills);
   }
 
 ?>
