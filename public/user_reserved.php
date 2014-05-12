@@ -7,9 +7,7 @@
   		}
 ?>
 <?php
-
-	if (isset($_POST['launch_now'])) {		
-		
+	if (isset($_POST['launch_now'])) {				
 		// Process the form
 		if (empty(Session::$errors)) {
 			$request_number = ($_POST["requesttNumber"]);
@@ -19,13 +17,11 @@
 			$_SESSION["req_Device"] = $request_device;
 			BasicHelper::redirect_to("user_device_result.php");
 		}
-
 	}//end of if (isset($_POST['submit']))
 ?>
 <?php
-
+	$timeWrong = false;
 	if (isset($_POST['reserve'])) {		
-		
 		// Process the form
 		if (empty(Session::$errors)) {
 			$request_number = ($_POST['requesttNumber']);
@@ -34,7 +30,40 @@
 			$request_device = ($_POST['requestDevice']);
 			$_SESSION['req_Device'] = $request_device;
 
-			BasicHelper::redirect_to("user_reserved_result.php");
+			$fromDate= ($_POST['fromDate']);
+			$fromTime= ($_POST['fromTime']);
+			$from ="";
+			$from = $fromDate;
+			$from .= " ";
+			$from .=$fromTime;
+			$from .=":00";
+			$_SESSION['from'] = $from;
+
+			$stopDate= ($_POST['stopDate']);
+			$stopTime= ($_POST['stopTime']);
+			$stop ="";
+			$stop = $stopDate;
+			$stop .= " ";
+			$stop .=$stopTime;
+			$stop .=":00";
+			$_SESSION['stop'] = $stop;
+
+			$f =strtotime($from);
+			$fromValue = date("Y-m-d h:i:s", $f);
+
+			$s =strtotime($stop);
+			$stopValue = date("Y-m-d h:i:s", $s);
+
+			//$today = new Datetime();
+			//$todayValue = date("Y-m-d h:i:s",$today);
+
+			$todayValue=date("Y-m-d h:i:s");
+
+			if(($fromValue > $todayValue) && ($stopValue > $fromValue)){
+				BasicHelper::redirect_to("user_reserved_result.php");		
+			}else{
+				$timeWrong= True;		
+			}
 		}
 
 	}//end of if (isset($_POST['submit']))
@@ -94,41 +123,34 @@
 		         		<h5 style="font-size:18px; "> Select reserve time and end time </h5>
 		         		<div class="row">
 			         		<div class="col-xs-2">
-			         			<input type="date" name="from" value="" style="height: 32px; width: 155px"/> 
+			         			<input type="date" name="fromDate" value="" style="height: 32px; width: 155px"/> 
 			         		</div>
 			         		<div class="col-xs-2">
-				         		<select name="fromTime" class="form-control" >
-									<?php for($i = 0; $i < 24; $i++): ?>
-										<option value="<?= $i; ?>"><?= $i % 12 ? $i % 12 : 12 ?>:00 <?= $i >= 12 ? 'pm' : 'am' ?></option>
-									<?php endfor ?>
-								</select> 
-							</div>
+			         			<input type="time" name="fromTime" value="0:0:0" style="height: 32px; width: 120px"/> 
+			         		</div>
 							
 							<div class="col-xs-2">
-								<input type="date" name="to" value="" style="height: 32px; width: 155px"/> 
+								<input type="date" name="stopDate" value="0:0:0" style="height: 32px; width: 155px"/> 
 							</div>
 							<div class="col-xs-2">
-								<select name="stopTime" class="form-control">
-									<?php for($i = 0; $i < 24; $i++): ?>
-										<option value="<?= $i; ?>"><?= $i % 12 ? $i % 12 : 12 ?>:00 <?= $i >= 12 ? 'pm' : 'am' ?></option>
-									<?php endfor ?>
-								</select>
-		         			</div>
+			         			<input type="time" name="stopTime" value="" style="height: 32px; width: 120px" /> 
+			         		</div>
 		         		</div>
-
 		         	</div>
-
-	         		<p style="margin-left:2em;margin-top:2em">
+		         	<p style="margin-left:2em;margin-top:2em">
 	         			<!--<a href="user_reserved_result.php" class="btn btn-warning">Submit</a> -->
-	         			<input class="btn btn-warning" id="loading2" type="submit" name="reserve" value="Reserve Device" /> 
-		      		</p>
+	         			<input class="btn btn-warning" id="loading2" type="submit" name="reserve" value="Reserve Device" />
+		      			<?php if($timeWrong){ ?>
+		      			<p class="bg-warning" style="height:3em; margin-left:1em;">
+			         		<span class="glyphicon glyphicon-remove" style="color: #ff3232;"></span>&nbsp
+			         		<h3red><?php echo "Your input the invalid date or time."; ?></h3red> <br></p>
+		      		 </p>
+		         	<?php }?>
+	       
 	         	</article>
 	        </form>
 	    	</div><!-- end of class row 2-->
-
-
 			<!-- row 3 -->
-
 			<!-- row 4 in footer -->
 
 <?php include("../includes/layouts/footer.php"); ?>

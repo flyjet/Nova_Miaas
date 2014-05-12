@@ -118,6 +118,17 @@
 											?>
 									</tbody>
 	              				</table>
+	              				<p style="font-size:17px; margin-left:1em;"> 
+			              			<h2orange>Connect to your instance</h2orange>
+			              			<ol style="font-size:15px;">
+				              			<li> Open an SSH client.</li>
+				              			<li> Connect to your instance using its Host Ip</li>
+				              			<li> Example:</li>
+			              			</ol>
+			              	
+			         				<br>
+			         				<br>
+	         					</p>
 	         				 <?php	//end of if all_pass
 	         				 }  elseif(!$all_fail){ ?>
 	         				 <p class="bg-danger" style="height:3em; margin-left:1em;">
@@ -125,17 +136,7 @@
 	         				 <h3red><?php echo $_SESSION["message"]; ?></h3red> <br></p>		              	
 	         				 <?php //end of elseif
 	         				}?>
-	              		<p style="font-size:17px; margin-left:1em;"> 
-	              			<h2orange>Connect to your instance</h2orange>
-	              			<ol style="font-size:15px;">
-		              			<li> Open an SSH client.</li>
-		              			<li> Connect to your instance using its Host Ip</li>
-		              			<li> Example:</li>
-	              			</ol>
-	              	
-	         				<br>
-	         				<br>
-	         			</p>					
+	              							
 	         	</article>
 	    	</div><!-- end of class row 2-->
 
