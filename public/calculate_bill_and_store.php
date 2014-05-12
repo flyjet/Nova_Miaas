@@ -11,13 +11,19 @@
 	if (mysqli_num_rows($result)==0) { //if could not find the records of bill, will creat a bill 
 		$userLastMonthBillSum=BillManager::find_and_build_bill_sum($_SESSION["user_id"], $billStart, $billEnd);
 		$billDue = date("Y-m-d H:i:s", mktime(0,0,0,date("m")+1,1,date("Y")) );
-		$insert_result=BillManager::insert_bill($_SESSION["user_id"], $billStart,$billEnd,$billDue, $userLastMonthBillSum["totalBill"]);
-		if ($insert_result){
-			$_SESSION["message"] = "Last month bill created";
-			BasicHelper::redirect_to("user_dashboard.php");
+		if($userLastMonthBillSum["totalBill"]>0){ //if last month has usage records and then bill amount above 0;
+			$insert_result=BillManager::insert_bill($_SESSION["user_id"], $billStart,$billEnd,$billDue, $userLastMonthBillSum["totalBill"]);
+			if ($insert_result){
+				$_SESSION["message"] = "Last month bill created";
+				BasicHelper::redirect_to("user_dashboard.php");
+			}
+			else {
+				$_SESSION["message"] = "Last month bill creation failed";
+				BasicHelper::redirect_to("user_dashboard.php");
+			}
 		}
-		else {
-			$_SESSION["message"] = "Last month bill creation failed";
+		else{
+			$_SESSION["message"] = "You don't have any bill for last month";
 			BasicHelper::redirect_to("user_dashboard.php");
 		}
 	}
