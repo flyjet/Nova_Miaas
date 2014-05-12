@@ -109,16 +109,19 @@ CREATE TABLE paymentinfo (
 	PRIMARY KEY (id)
 	);
 
-insert into paymentinfo (user_id, card_number,name_on_card,expire,street,city,state,postcode,country,phone)	values
-	(1,'123456789012','ling zhang','12/2018','100 1st Street','San Jose','CA','12345','USA','408-123-4567');
+insert into paymentinfo (id,user_id, card_number,name_on_card,expire,street,city,state,postcode,country,phone)	values
+	(1,1,'123456789012','ling zhang','12/2018','100 1st Street','San Jose','CA','12345','USA','408-123-4567'),
+	(2,2,'123456789013','qi cao','12/2018','100 1st Street','San Jose','CA','12345','USA','408-123-4568'),
+	(3,3,'123456789014','yang song','12/2018','100 1st Street','San Jose','CA','12345','USA','408-123-4569'),
+	(4,4,'123456789015','kai yao','12/2018','100 1st Street','San Jose','CA','12345','USA','408-123-4570');
 
 
 DROP TABLE IF EXISTS bills;
 CREATE TABLE bills (
 	id int NOT NULL AUTO_INCREMENT,
 	user_id int NOT NULL,
-	bill_start timestamp NOT NULL,
-	bill_end timestamp NOT NULL,
+	bill_start timestamp default '0000-00-00 00:00:00',
+	bill_end timestamp,
 	bill_due timestamp,
 	amount decimal(10,2) NOT NULL,
 	paid_flag bit default 0,  -- 0, not paid; 1, alread paid
@@ -201,18 +204,18 @@ UPDATE mobiles set status=2 where id=3;
 
 -------- some query only for test------- 
 
-select id from hosts WHERE status=1 ORDER BY used_emulator_no DESC;
-select id from hosts WHERE status=1 ORDER BY used_device_no DESC;
+-- select id from hosts WHERE status=1 ORDER BY used_emulator_no DESC;
+-- select id from hosts WHERE status=1 ORDER BY used_device_no DESC;
+-- 
+-- select distinct * from mobiles, hosts where host_id = hosts.id;
+-- 
+-- select mobiles.id, emulator_flag, brand, api, host_ip, ip, mobiles.status 
+-- from mobiles, hosts 
+-- where host_id = hosts.id order by id;
 
-select distinct * from mobiles, hosts where host_id = hosts.id;
-
-select mobiles.id, emulator_flag, brand, api, host_ip, ip, mobiles.status 
-from mobiles, hosts 
-where host_id = hosts.id order by id;
 
 
-
------------------- user data for May-------
+-- user data for May 
 insert into user_mobile (user_id,mobile_id, start_time, end_time) values 
 (1,1,'2014-05-01 00:00:01', '2014-05-01 10:00:01'),
 (1,1,'2014-05-02 12:00:01', '2014-05-03 22:00:01'),
@@ -248,3 +251,23 @@ update bills set paid_flag=0 where id =10;
 -- select id, emulator_flag, brand, api from mobiles
 -- where id in (select distinct mobile_id from user_mobile where user_id=1);
 -- test sucess
+
+-- current month usage record data:
+-- insert into user_mobile (user_id,mobile_id, start_time, end_time) values
+-- (4,2,'2014-05-01 00:00:01', '2014-05-01 10:00:01'),
+-- (4,2,'2014-05-02 12:00:01', '2014-05-03 22:00:01'),
+-- (4,4,'2014-05-03 00:00:01', '2014-05-03 20:00:01'),
+-- (4,4,'2014-05-05 00:00:01', '2014-05-06 15:00:01');
+
+-- last month bill record data:
+-- insert into bills (id,user_id,bill_start,bill_end,bill_due,amount,paid_flag)  values
+-- (11,4,'2014-04-01 00:00:01','2014-05-01 00:00:00','2014-06-01 00:00:00', 25.00, 0);
+
+-- delete from bills where bill_start='2014-04-01 00:00:01';
+
+-- last month usage record data:
+-- insert into user_mobile (user_id,mobile_id, start_time, end_time) values
+-- (4,1,'2014-04-19 00:00:01', '2014-04-19 10:00:01'),
+-- (4,1,'2014-04-20 12:00:01', '2014-04-20 22:00:01'),
+-- (4,2,'2014-04-19  00:00:01', '2014-04-20 20:00:01'),
+-- (4,3,'2014-04-19 00:00:01', '2014-04-19 15:00:01');
