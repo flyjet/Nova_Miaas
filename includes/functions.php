@@ -397,17 +397,18 @@ class BillManager{
 		global $connection;	
 		$total_hour_mobile=0;
 		if ($user_mobile_records!=null){
-		foreach( $user_mobile_records as $user_mobile_row){
-			//echo " start time is ".$user_mobile_row["start_time"];
-			//echo " end time is ".$user_mobile_row["end_time"];
-			$time1 = strtotime($user_mobile_row["end_time"]);
-			$time2 = strtotime($user_mobile_row["start_time"]);
-			$hour_mobile=($time1-$time2)/3600;
-			//echo " usage is ".$hour_mobile;
-			$total_hour_mobile += $hour_mobile;			
+			foreach( $user_mobile_records as $user_mobile_row){
+				//echo " start time is ".$user_mobile_row["start_time"];
+				//echo " end time is ".$user_mobile_row["end_time"];
+				$time1 = strtotime($user_mobile_row["end_time"]);
+				$time2 = strtotime($user_mobile_row["start_time"]);
+				$hour_mobile=($time1-$time2)/3600;
+				//echo " usage is ".$hour_mobile;
+				$total_hour_mobile += $hour_mobile;			
+			}
 		}
 		return $total_hour_mobile;	
-		}	
+	
 		
 	}
 	
@@ -449,11 +450,14 @@ class BillManager{
 		//Post Condition: return an Array for google chart
 		// issues of this funtion:
 		//could not consider the records duration over the start time point, or end time point!!!
-	    $deviceRecords = BillManager::find_usage_records_by_userid($user_id,"DEVICE", $start, $end);
+	    $deviceHourMobile=0;
+		$deviceBill =0;
+		$deviceRecords = BillManager::find_usage_records_by_userid($user_id,"DEVICE", $start, $end);
 	    $deviceHourMobile = BillManager::calculate_total_hour_mobile($deviceRecords);
 	    $deviceBill =BillManager::calculate_bill_by_type($deviceHourMobile,"DEVICE");
    
-
+        $emulatorHourMobile=0;
+		$emulatorBill=0;
 	    $emulatorRecords = BillManager::find_usage_records_by_userid($user_id,"EMULATOR", $start,$end);
 	    $emulatorHourMobile = BillManager::calculate_total_hour_mobile($emulatorRecords);   
 	    $emulatorBill =BillManager::calculate_bill_by_type($emulatorHourMobile,"EMULATOR");
