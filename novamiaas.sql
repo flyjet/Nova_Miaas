@@ -175,12 +175,19 @@ insert into pay_history(user_id,bill_id,payinfo_id,paid_time)values
 UPDATE hosts SET used_device_no=2,used_emulator_no=2 WHERE id=1;
 UPDATE hosts SET used_emulator_no=2 WHERE id=2;
 
+
+-- update host_ip
+UPDATE hosts set host_ip="192.168.2.66" where id=2;
+UPDATE hosts set host_ip="192.168.2.55" where id=1;
+
 -- insert more emulators to each host have 5 emualotrs ( for both Google and Samsung)
+
 insert into mobiles (emulator_flag,brand, api, name, host_id) values 
 (0,'Google Galaxy Nexus - 4.3', 'API 18','Google Galaxy Nexus - 4.3 - API 18 - 720x1280', 1),
 (0,'Google Galaxy Nexus - 4.3', 'API 18','Google Galaxy Nexus - 4.3 - API 18 - 720x1280', 1),
 (0,'Google Galaxy Nexus - 4.3', 'API 18','Google Galaxy Nexus - 4.3 - API 18 - 720x1280', 1),
 (0,'Google Galaxy Nexus - 4.3', 'API 18','Google Galaxy Nexus - 4.3 - API 18 - 720x1280', 1);
+
 
 insert into mobiles (emulator_flag,brand, api, name, host_id) values 
 (0,'Google Galaxy Nexus - 4.3', 'API 18','Google Galaxy Nexus - 4.3 - API 18 - 720x1280', 2),

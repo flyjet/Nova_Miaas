@@ -43,7 +43,7 @@
 								<tr>
 									<td><?php echo $instance["id"]; ?></td>
 									<td><?php if($instance["emulator_flag"]==0){
-										echo "Emulaotr";
+										echo "Emulator";
 									}elseif($instance["emulator_flag"]==1){
 										echo "Device";
 									}?></td>
