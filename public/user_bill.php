@@ -37,7 +37,7 @@ $userUnpaidBill=BillManager::find_unpaid_bill_by_userid($_SESSION["user_id"]);
 		         		<h2orange>Unpaid Bill</h2orange>
 		         	</div>
 					<div>
-		         	<table class="table table-striped" style="margin-left:1em;">
+		         	<table class="table table-striped" style="margin-left:2em;">
 				                <thead>
 				                  <tr>
 				                    <th>Start Time</th>
@@ -89,7 +89,7 @@ $userUnpaidBill=BillManager::find_unpaid_bill_by_userid($_SESSION["user_id"]);
 		
 			            var options = {
 			                fontSize: 11,
-							width: 600,
+							width: 900,
 							page: 'enable',
 							pageSize : 6,
 							pagingSymbols : {prev: 'prev', next: 'next'},
@@ -111,7 +111,7 @@ $userUnpaidBill=BillManager::find_unpaid_bill_by_userid($_SESSION["user_id"]);
 		
 			            var options = {
 			                title: 'Your Current Month Usage',
-							width: 600,
+							width: 900,
 							is3D: true,
 							slices: {
 								0:{ color: '#FFCBA4' },

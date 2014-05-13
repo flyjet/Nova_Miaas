@@ -402,7 +402,11 @@ class BillManager{
 				//echo " end time is ".$user_mobile_row["end_time"];
 				$time1 = strtotime($user_mobile_row["end_time"]);
 				$time2 = strtotime($user_mobile_row["start_time"]);
+				if($time1<$time2){
+					$time1 = strtotime(date("Y-m-d H:i:s"));
+				}
 				$hour_mobile=($time1-$time2)/3600;
+			   
 				//echo " usage is ".$hour_mobile;
 				$total_hour_mobile += $hour_mobile;			
 			}

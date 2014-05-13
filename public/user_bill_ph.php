@@ -38,7 +38,7 @@
 			
 			            var options = {
 			                fontSize: 11,
-							width: 600, height: 240,
+							width: 900, height: 240,
 							page: 'enable',
 							pageSize : 5,
 							pagingSymbols : {prev: 'prev', next: 'next'},
