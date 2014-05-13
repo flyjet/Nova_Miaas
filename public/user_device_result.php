@@ -125,7 +125,28 @@
 											?>
 									</tbody>
 	              				</table>
-	         				 <?php	//end of if all_pass
+	         				 
+	              				<p style="font-size:17px; margin-left:1em;"> 
+			              			<h2orange>Connect to your device</h2orange>
+			              			<br>For Windows customer
+			              			<ol style="font-size:15px;">
+				              			<li> Open your PuTTY</li>
+				              			<li> In Host Name (or IP address) enter the host IP</li>
+				              			<li> Please enter username: thigod</li>
+				              			<li> Please enter password: 9769 </li>
+				              			<li> Now you can use "adb -s yourDeviceIP" command to control your device</li>
+			              			</ol>
+			              		</p>
+			              		<p style="font-size:17px; margin-left:1em;"> 	
+			              			For MacOS/Linux/Unix customer:
+			              			<ol style="font-size:15px;">
+				              			<li> Open your terminal</li>
+				              			<li> Please enter $ssh thigod@hostIP</li>
+				              			<li> Please enter password: 9769 </li>
+				              			<li> Now you can use "adb -s yourDeviceIP" command to control your device</li>
+			              			</ol>      			
+	         					</p>
+	         				<?php	//end of if all_pass
 	         				 }  elseif(!$all_fail){ ?>
 	         				 <p class="bg-danger" style="height:3em; margin-left:1em;">
 	         				 <span class="glyphicon glyphicon-remove" style="color: #ff3232;"></span>&nbsp
@@ -138,19 +159,7 @@
 							<?php
 	         					}  //end of elseif
 	         					?>
-
-	              		<p style="font-size:17px; margin-left:1em;"> 
-	              			<h2orange>Connect to your instance</h2orange>
-	              			<ol style="font-size:15px;">
-		              			<li> Open an SSH client.</li>
-		              			<li> Connect to your instance using its Host Ip</li>
-		              			<li> Example:</li>
-	              			</ol>
-	              	
-	         				<br>
-	         				<br>
-	         			</p>					       	         		
-	         		<br>
+				       	         		
 	         	</article>
 
 	    	</div><!-- end of class row 2-->

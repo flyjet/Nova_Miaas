@@ -11,15 +11,18 @@
 	$begin_array=array();
 	$err_message = " Your request to launch the instance is failed, please try again";
 
-  	$hostId_set= ResourceAllocation::order_HostId_emulator();   //get host_Id, and used_device_no in assocate array
+  	$hostId_set= ResourceAllocation::order_HostId_emulator();  //get host_Id, and used_device_no in assocate array
   		while ($row = mysqli_fetch_assoc($hostId_set)){  //loope each host 
   			$hostId = $row["id"];
+  			//echo "hostId=======";
+  			//echo $hostId;
   			$freeNum = ResourceAllocation::$maxMobiles_perHost - $row["used_emulator_no"];
 
   			if($freeNum >= $reqNumber){  //one host is enough
   				$emulator_set = ResourceAllocation::found_freeEmulator_by_brand( $_SESSION["req_Instance"],$hostId,$reqNumber);
-				if (!isset($emulator_set)) {
+				if (mysqli_num_rows($emulator_set) ==0) {
 					//not have emulator is ready in server side
+
 					$_SESSION["message"] = $err_message;
 		  		}
 		  		else{
@@ -32,7 +35,7 @@
   			else 
   			{
  				$emulator_set = ResourceAllocation::found_freeEmulator_by_brand( $_SESSION["req_Instance"],$hostId,$freeNum);
-				if (!isset($emulator_set)) {
+				if (mysqli_num_rows($emulator_set)== 0) {
 					$_SESSION["message"] = $err_message;
 		  		}
 		  		else{
@@ -120,14 +123,23 @@
 	              				</table>
 	              				<p style="font-size:17px; margin-left:1em;"> 
 			              			<h2orange>Connect to your instance</h2orange>
+			              			<br>For Windows customer
 			              			<ol style="font-size:15px;">
-				              			<li> Open an SSH client.</li>
-				              			<li> Connect to your instance using its Host Ip</li>
-				              			<li> Example:</li>
+				              			<li> Open your PuTTY</li>
+				              			<li> In Host Name (or IP address) enter the host IP</li>
+				              			<li> Please enter username: thigod</li>
+				              			<li> Please enter password: 9769 </li>
+				              			<li> Now you can use "adb -s yourEmulatorIP" command to control your emulator</li>
 			              			</ol>
-			              	
-			         				<br>
-			         				<br>
+			              		</p>
+			              		<p style="font-size:17px; margin-left:1em;"> 		
+			              			For MacOS/Linux/Unix customer:
+			              			<ol style="font-size:15px;">
+				              			<li> Open your terminal</li>
+				              			<li> Please enter $ssh thigod@hostIP</li>
+				              			<li> Please enter password: 9769 </li>
+				              			<li> Now you can use "adb -s yourEmulatorIP" command to control your emulator</li>
+			              			</ol>     	      			
 	         					</p>
 	         				 <?php	//end of if all_pass
 	         				 }  elseif(!$all_fail){ ?>

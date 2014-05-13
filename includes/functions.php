@@ -590,7 +590,7 @@ class BillManager{
 
 	class ResourceAllocation{
 
-		public static $maxMobiles_perHost=5;
+		public static $maxMobiles_perHost=2;
 
 
 
