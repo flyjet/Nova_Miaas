@@ -9,6 +9,9 @@
 
   // get the message which need to send to queue
   $send_message = ResourceAllocation::get_message_string($emulatorId, $userId, $action);
+  //echo "This is message send to SQS";
+  //echo $send_message;
+
   $sd_msg_array = explode("/",$send_message);  //($userId, $emulator_flag, $hostId, $instanceId, $action)
   if(empty($send_message)){
   	//empty message
