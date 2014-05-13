@@ -476,14 +476,21 @@ class BillManager{
 		//Post Condition: return an Array contain bill sum for total used time, total bill for each user
 		// issues of this funtion:
 		//could not consider the records duration over the start time point, or end time point!!!
-	    $deviceRecords = BillManager::find_usage_records_by_userid($user_id,"DEVICE", $start, $end);
+	    $deviceHourMobile=0;
+		$deviceBill =0;
+		$deviceRecords = BillManager::find_usage_records_by_userid($user_id,"DEVICE", $start, $end);
+		if($deviceRecords){
 	    $deviceHourMobile = BillManager::calculate_total_hour_mobile($deviceRecords);
 	    $deviceBill =BillManager::calculate_bill_by_type($deviceHourMobile,"DEVICE");
+	    }
    
-
+        $emulatorHourMobile=0;
+		$emulatorBill=0;
 	    $emulatorRecords = BillManager::find_usage_records_by_userid($user_id,"EMULATOR", $start,$end);
+		if($emulatorRecords){
 	    $emulatorHourMobile = BillManager::calculate_total_hour_mobile($emulatorRecords);   
 	    $emulatorBill =BillManager::calculate_bill_by_type($emulatorHourMobile,"EMULATOR");
+	    }
    
         $userBillSum['totalTime']=$deviceHourMobile + $emulatorHourMobile;
 		$userBillSum['totalBill']=$deviceBill + $emulatorBill;
