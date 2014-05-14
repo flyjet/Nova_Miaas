@@ -53,7 +53,9 @@
 	         		<br>
 					<p > Your Usage Report For Current Month:  <?php echo date("M");?> </p>
 	         		<br>
+					<p> Usage For Each Instance </p>
 					<div id="CurrentMonthUsageReportTable"></div><br>
+					<p> Bill Summary </p>
 					<div id="CurrentMonthBillTable"></div><br>				
 					</div>
 					
@@ -93,7 +95,7 @@
 	
 			            var options = {
 			                fontSize: 11,
-							width: 600,
+							width: 900,
 							page: 'enable',
 							pageSize : 6,
 							pagingSymbols : {prev: 'prev', next: 'next'},
@@ -119,7 +121,7 @@
 	
 			            var options = {
 			                fontSize: 11,
-							width: 600,
+							width: 900,
 							page: 'enable',
 							pageSize : 6,
 							pagingSymbols : {prev: 'prev', next: 'next'},
