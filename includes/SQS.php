@@ -13,8 +13,8 @@
 		public static function init_SNS(){
 		   
 		    $sns = SNSClient::factory(array(
-	        'key'    => 'AKIAJYYAHUDDRUVSGCUQ',
-	        'secret' => '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',
+	        'key'    => '',
+	        'secret' => '',
 	        'region' => 'us-west-1',
 	    	));  
 	    	return $sns;
@@ -23,8 +23,8 @@
 		public static function init_SQS(){
 		   
 		    $sqs  = SQSClient::factory(array(
-	        'key'    => 'AKIAJYYAHUDDRUVSGCUQ',
-	        'secret' => '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',
+	        'key'    => '',
+	        'secret' => '',
 	        'region' => 'us-west-1',
 	    	));  
 	    	return $sqs;
